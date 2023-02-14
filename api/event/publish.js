@@ -23,7 +23,7 @@ export default async function handler(request, response) {
     event.id = getEventHash(event)
     event.sig = signEvent(event, sk)
 
-    if (relay == undefined || !validateEvent(event) || !verifySignature(event)) {
+    if (relay === undefined || !validateEvent(event) || !verifySignature(event)) {
         return response.status(500).json({ error: 'error' })
     }
 
