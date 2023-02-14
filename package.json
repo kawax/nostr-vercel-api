@@ -1,0 +1,23 @@
+{
+  "name": "nostr-vercel-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kawax/nostr-vercel-api.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kawax/nostr-vercel-api/issues"
+  },
+  "homepage": "https://github.com/kawax/nostr-vercel-api#readme",
+  "dependencies": {
+    "nostr-tools": "^1.4.0",
+    "websocket-polyfill": "^0.0.3"
+  }
+}
