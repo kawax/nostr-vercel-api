@@ -23,9 +23,6 @@ export default async function handler(request, response) {
     event.id = getEventHash(event)
     event.sig = signEvent(event, sk)
 
-    console.log(relay)
-    console.log(event)
-
     if (relay == undefined || !validateEvent(event) || !verifySignature(event)) {
         return response.status(500).json({ error: 'error' })
     }
@@ -40,7 +37,7 @@ export default async function handler(request, response) {
         console.log(`failed to connect to ${relay_server.url}`)
     })
 
-    let pub = relay_server.publish(event)
+    const pub = relay_server.publish(event)
 
     pub.on('ok', () => {
         console.log(`${relay_server.url} has accepted our event`)
@@ -52,7 +49,7 @@ export default async function handler(request, response) {
         console.log(`failed to publish to ${relay_server.url}: ${reason}`)
     })
 
-    let events = await relay_server.list([{ kinds: [0, 1] }])
+    const events = await relay_server.list([{ kinds: [1] }])
 
     await relay_server.close()
 
