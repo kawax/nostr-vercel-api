@@ -19,11 +19,11 @@ Frontend is not covered, CORS is not supported.
 ### Event
 | method | path            | parameters                                                   | response          | description                    |
 |--------|-----------------|--------------------------------------------------------------|-------------------|--------------------------------|
-| POST   | `event/publish` | `kind`, `content`, `tags`, `sk`, `relay`                     | `{message: "ok"}` | Publish new event              |
+| POST   | `event/publish` | `kind`, `content`, `created_at`, `tags`, `sk`, `relay`       | `{message: "ok"}` | Publish new event              |
 | POST   | `event/list`    | `ids` `kinds`, `authors`, `since`, `until`, `limit`, `relay` | `{events: []}`    | Get events list. Until `EOSE`. |
 | POST   | `event/get`     | `ids` `kinds`, `authors`, `since`, `until`, `limit`, `relay` | `{event: {}}`     | Get first event.               |
 
-### NIP05
+### NIP-05
 | method | path            | parameters | response                                  | description        |
 |--------|-----------------|------------|-------------------------------------------|--------------------|
 | GET    | `nip05/profile` | `user`     | `{pubkey: "public key(hex)", relays: []}` | Get NIP-05 profile |
