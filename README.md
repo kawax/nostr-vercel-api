@@ -1,7 +1,7 @@
 Nostr API for Server side
 ====
 
-API for using Nostr from server-side languages.
+WebAPI for using Nostr from server-side languages that are difficult to Schnorr signature.  
 Frontend is not covered, CORS is not supported.
 
 ## API
@@ -21,9 +21,9 @@ Frontend is not covered, CORS is not supported.
 |--------|-----------------|--------------------------------------------------------------|-------------------|--------------------------------|
 | POST   | `event/publish` | `kind`, `content`, `tags`, `sk`, `relay`                     | `{message: "ok"}` | Publish new event              |
 | POST   | `event/list`    | `ids` `kinds`, `authors`, `since`, `until`, `limit`, `relay` | `{events: []}`    | Get events list. Until `EOSE`. |
+| POST   | `event/get`     | `ids` `kinds`, `authors`, `since`, `until`, `limit`, `relay` | `{event: {}}`     | Get first event.               |
 
 ## Laravel example
-Reading can be done without this API.
 
 ### Generate keys
 ```php
@@ -108,6 +108,35 @@ dump($response->json());
 //            'content' => '...',
 //          ]
 //     ],
+//]
+```
+
+### Get my profile
+```php
+use Illuminate\Support\Facades\Http;
+
+$author = 'my pk';
+$relay = 'wss://...';
+
+$response = Http::baseUrl('https://nostr-api.vercel.app/api/')
+                ->post('event/get', [
+                    'kinds' => [0],
+                    'authors' => [$author],
+                    'relay' => $relay,
+                ]);
+
+dump($response->json());
+//[
+//    'event' => [
+//         'content' => '{banner: "...", name: "", ...}',
+//     ],
+//]
+
+$user = json_decode($response->json('event.content'), true);
+dump($user);
+//[
+//    'display_name' => '',
+//    'nip05' => '',
 //]
 ```
 
