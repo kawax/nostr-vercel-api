@@ -39,21 +39,27 @@ export default async function handler(request, response) {
 
     const pub = relay_server.publish(event)
 
-    pub.on('ok', () => {
+    pub.on('ok', async () => {
         console.log(`${relay_server.url} has accepted our event`)
+
+        await relay_server.close()
+
+        return response.status(201).json({
+            message: `ok`,
+        });
     })
+
     pub.on('seen', () => {
         console.log(`we saw the event on ${relay_server.url}`)
     })
-    pub.on('failed', reason => {
+
+    pub.on('failed', async reason => {
         console.log(`failed to publish to ${relay_server.url}: ${reason}`)
+
+        await relay_server.close()
+
+        return response.status(500).json({
+            error: `${reason}`,
+        });
     })
-
-    const events = await relay_server.list([{ kinds: [1] }])
-
-    await relay_server.close()
-
-    return response.status(201).json({
-        message: `ok`,
-    });
 }
