@@ -16,6 +16,8 @@ export default async function handler(request, response) {
         limit: limit,
     }
 
+    console.log(filter)
+
     const relay_server = relayInit(relay)
     await relay_server.connect()
 
@@ -28,7 +30,7 @@ export default async function handler(request, response) {
 
     let events = await relay_server.list([filter])
 
-    await relay_server.close()
+    //await relay_server.close()
 
     return response.status(200).json({
         events: events,
