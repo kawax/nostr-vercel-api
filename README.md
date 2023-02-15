@@ -23,6 +23,12 @@ Frontend is not covered, CORS is not supported.
 | POST   | `event/list`    | `ids` `kinds`, `authors`, `since`, `until`, `limit`, `relay` | `{events: []}`    | Get events list. Until `EOSE`. |
 | POST   | `event/get`     | `ids` `kinds`, `authors`, `since`, `until`, `limit`, `relay` | `{event: {}}`     | Get first event.               |
 
+### NIP05
+| method | path            | parameters | response                                  | description        |
+|--------|-----------------|------------|-------------------------------------------|--------------------|
+| GET    | `nip05/profile` | `user`     | `{pubkey: "public key(hex)", relays: []}` | Get NIP-05 profile |
+
+
 ## Laravel example
 
 ### Generate keys
@@ -137,6 +143,23 @@ dump($user);
 //[
 //    'display_name' => '',
 //    'nip05' => '',
+//]
+```
+
+### NIP-05
+
+```php
+use Illuminate\Support\Facades\Http;
+
+$response = Http::baseUrl('https://nostr-api.vercel.app/api/')
+                ->get('nip05/profile', [
+                    'user' => 'user@example.com',
+                ]);
+
+dump($response->json());
+//[
+//    'pubkey' => '',
+//    'relays' => [],
 //]
 ```
 
