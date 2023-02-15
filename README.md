@@ -17,9 +17,10 @@ Frontend is not covered, CORS is not supported.
 | GET    | `key/from_npub` | `npub`     | `{pk: "public key(hex)", npub: ""}`                                  | Get public keys from given npub |
 
 ### Event
-| method | path            | parameters                               | response          | description       |
-|--------|-----------------|------------------------------------------|-------------------|-------------------|
-| POST   | `event/publish` | `kind`, `content`, `tags`, `sk`, `relay` | `{message: "ok"}` | Publish new event |
+| method | path            | parameters                                                   | response          | description                    |
+|--------|-----------------|--------------------------------------------------------------|-------------------|--------------------------------|
+| POST   | `event/publish` | `kind`, `content`, `tags`, `sk`, `relay`                     | `{message: "ok"}` | Publish new event              |
+| POST   | `event/list`    | `ids` `kinds`, `authors`, `since`, `until`, `limit`, `relay` | `{events: []}`    | Get events list. Until `EOSE`. |
 
 ## Laravel example
 Reading can be done without this API.
@@ -81,6 +82,32 @@ $response = Http::baseUrl('https://nostr-api.vercel.app/api/')
 dump($response->json());
 //[
 //    'message' => 'ok',
+//]
+```
+
+### Get my recent notes
+```php
+use Illuminate\Support\Facades\Http;
+
+$author = 'my pk';
+$relay = 'wss://...';
+
+$response = Http::baseUrl('https://nostr-api.vercel.app/api/')
+                ->post('event/list', [
+                    'kinds' => [1],
+                    'authors' => [$author],
+                    'limit' => 10,
+                    'since' => now()->subDays(30)->timestamp,
+                    'relay' => $relay,
+                ]);
+
+dump($response->json());
+//[
+//    'events' => [
+//          [
+//            'content' => '...',
+//          ]
+//     ],
 //]
 ```
 
