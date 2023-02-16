@@ -5,15 +5,10 @@ import {
 import 'websocket-polyfill'
 
 export default async function handler(request, response) {
-    const { ids, kinds = [1], authors, since, until, limit, relay } = request.body
+    const { filter = [], id, relay } = request.body
 
-    const filter = {
-        ids: ids,
-        kinds: kinds,
-        authors: authors,
-        since: since,
-        until: until,
-        limit: limit,
+    const opts = {
+        id: id
     }
 
     const relay_server = relayInit(relay)
@@ -26,7 +21,7 @@ export default async function handler(request, response) {
         console.log(`failed to connect to ${relay_server.url}`)
     })
 
-    const event = await relay_server.get(filter)
+    const event = await relay_server.get(filter, opts)
 
     return response.status(200).json({
         event: event,

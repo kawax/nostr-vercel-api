@@ -10,16 +10,9 @@ import {
 import 'websocket-polyfill'
 
 export default async function handler(request, response) {
-    const { kind = 1, tags = [], content, created_at, sk, relay } = request.body
+    const { event, sk, relay } = request.body
 
-    let event = {
-        kind: kind,
-        created_at: created_at ?? Math.floor(Date.now() / 1000),
-        tags: tags,
-        content: content,
-        pubkey: getPublicKey(sk)
-    }
-
+    event.pubkey = getPublicKey(sk)
     event.id = getEventHash(event)
     event.sig = signEvent(event, sk)
 

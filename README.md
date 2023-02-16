@@ -17,13 +17,13 @@ Frontend is not covered, CORS is not supported.
 | GET    | `key/from_npub` | `npub`     | `{pk: "public key(hex)", npub: ""}`                                  | Get public keys from given npub |
 
 ### Event
-| method | path            | parameters                                                   | response          | description                    |
-|--------|-----------------|--------------------------------------------------------------|-------------------|--------------------------------|
-| POST   | `event/publish` | `kind`, `content`, `created_at`, `tags`, `sk`, `relay`       | `{message: "ok"}` | Publish new event              |
-| POST   | `event/list`    | `ids` `kinds`, `authors`, `since`, `until`, `limit`, `relay` | `{events: []}`    | Get events list. Until `EOSE`. |
-| POST   | `event/get`     | `ids` `kinds`, `authors`, `since`, `until`, `limit`, `relay` | `{event: {}}`     | Get first event.               |
-| POST   | `event/hash`    | `event`                                                      | `{hash: ""}`      | event hash for `event.id`.     |
-| POST   | `event/sign`    | `event`, `sk`                                                | `{sign: ""}`      | event sign for `event.sig`.    |
+| method | path            | parameters                                                                                | response          | description                    |
+|--------|-----------------|-------------------------------------------------------------------------------------------|-------------------|--------------------------------|
+| POST   | `event/publish` | `event{kind: 1, content: "", created_at: 0, tags: []}`, `sk`, `relay`                     | `{message: "ok"}` | Publish new event              |
+| POST   | `event/list`    | `filters[{ids: [], kinds: [], authors: [], since: 0, until: 0, limit: 0}]`, `id`, `relay` | `{events: []}`    | Get events list. Until `EOSE`. |
+| POST   | `event/get`     | `filter{ids: [], kinds: [], authors: [], since: 0, until: 0, limit: 0}`, `id`, `relay`    | `{event: {}}`     | Get first event.               |
+| POST   | `event/hash`    | `event`                                                                                   | `{hash: ""}`      | event hash for `event.id`.     |
+| POST   | `event/sign`    | `event`, `sk`                                                                             | `{sign: ""}`      | event sign for `event.sig`.    |
 
 ### NIP-05
 | method | path            | parameters | response                                  | description        |
@@ -78,12 +78,16 @@ use Illuminate\Support\Facades\Http;
 $sk = '...';
 $relay = 'wss://...';
 
+$event = [
+    'kind' => 1,
+    'content' => 'hello',
+    'created_at' => now()->timestamp,
+    'tags' => [],
+];
+
 $response = Http::baseUrl('https://nostr-api.vercel.app/api/')
                 ->post('event/publish', [
-                    'kind' => 1,
-                    'content' => 'hello',
-                    'created_at' => now()->timestamp,
-                    'tags' => [],
+                    'event' => $event,
                     'sk' => $sk,
                     'relay' => $relay,
                 ]);
@@ -101,12 +105,16 @@ use Illuminate\Support\Facades\Http;
 $author = 'my pk';
 $relay = 'wss://...';
 
+$filter = [
+    'kinds' => [1],
+    'authors' => [$author],
+    'limit' => 10,
+    'since' => now()->subDays(30)->timestamp,
+];
+
 $response = Http::baseUrl('https://nostr-api.vercel.app/api/')
                 ->post('event/list', [
-                    'kinds' => [1],
-                    'authors' => [$author],
-                    'limit' => 10,
-                    'since' => now()->subDays(30)->timestamp,
+                    'filters' => [$filter],
                     'relay' => $relay,
                 ]);
 
@@ -127,10 +135,14 @@ use Illuminate\Support\Facades\Http;
 $author = 'my pk';
 $relay = 'wss://...';
 
+$filter = [
+    'kinds' => [0],
+    'authors' => [$author],
+];
+
 $response = Http::baseUrl('https://nostr-api.vercel.app/api/')
                 ->post('event/get', [
-                    'kinds' => [0],
-                    'authors' => [$author],
+                    'filter' => $filter,
                     'relay' => $relay,
                 ]);
 
