@@ -22,6 +22,8 @@ Frontend is not covered, CORS is not supported.
 | POST   | `event/publish` | `kind`, `content`, `created_at`, `tags`, `sk`, `relay`       | `{message: "ok"}` | Publish new event              |
 | POST   | `event/list`    | `ids` `kinds`, `authors`, `since`, `until`, `limit`, `relay` | `{events: []}`    | Get events list. Until `EOSE`. |
 | POST   | `event/get`     | `ids` `kinds`, `authors`, `since`, `until`, `limit`, `relay` | `{event: {}}`     | Get first event.               |
+| POST   | `event/hash`    | `event`                                                      | `{hash: ""}`      | event hash for `event.id`.     |
+| POST   | `event/sign`    | `event`, `sk`                                                | `{sign: ""}`      | event sign for `event.sig`.    |
 
 ### NIP-05
 | method | path            | parameters | response                                  | description        |
@@ -80,6 +82,7 @@ $response = Http::baseUrl('https://nostr-api.vercel.app/api/')
                 ->post('event/publish', [
                     'kind' => 1,
                     'content' => 'hello',
+                    'created_at' => now()->timestamp,
                     'tags' => [],
                     'sk' => $sk,
                     'relay' => $relay,
@@ -147,7 +150,6 @@ dump($user);
 ```
 
 ### NIP-05
-
 ```php
 use Illuminate\Support\Facades\Http;
 
@@ -160,6 +162,40 @@ dump($response->json());
 //[
 //    'pubkey' => '',
 //    'relays' => [],
+//]
+```
+
+### Event hash and sign
+```php
+use Illuminate\Support\Facades\Http;
+
+$event = [
+    'kind' => 1,
+    'content' => 'test',
+    'created_at' => now()->timestamp,
+    'tags' => [],
+    'pubkey' => '...',
+];
+
+// event hash
+$response = Http::baseUrl('https://nostr-api.vercel.app/api/')
+                ->post('event/hash', ['event' => $event]);
+
+dump($response->json());
+//[
+//    'hash' => '',
+//]
+
+// sign
+$response = Http::baseUrl('https://nostr-api.vercel.app/api/')
+                ->post('event/sign', [
+                    'event' => $event,
+                    'sk' => '...',
+                ]);
+
+dump($response->json());
+//[
+//    'sign' => '',
 //]
 ```
 
