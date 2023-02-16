@@ -166,6 +166,8 @@ dump($response->json());
 ```
 
 ### Event hash and sign
+Not needed when using `event/publish`. Used for sending via server-side WebSocket.
+
 ```php
 use Illuminate\Support\Facades\Http;
 
@@ -186,6 +188,8 @@ dump($response->json());
 //    'hash' => '',
 //]
 
+$hash = $response->json('hash');
+
 // sign
 $response = Http::baseUrl('https://nostr-api.vercel.app/api/')
                 ->post('event/sign', [
@@ -197,6 +201,11 @@ dump($response->json());
 //[
 //    'sign' => '',
 //]
+
+$sign = $response->json('sign');
+
+$event['id'] = $hash;
+$event['sig'] = $sign;
 ```
 
 ## LICENCE
