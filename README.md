@@ -1,6 +1,8 @@
 Nostr API for Server side
 ====
 
+**Work in progress**
+
 WebAPI for using Nostr from server-side languages that are difficult to Schnorr signature.  
 Frontend is not covered, CORS is not supported.
 
@@ -222,4 +224,3 @@ $event['sig'] = $sign;
 
 ## LICENCE
 MIT
-

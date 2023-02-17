@@ -4,11 +4,11 @@ import {
 
 import 'websocket-polyfill'
 
-export default async function handler(request, response) {
-    const { filter = [], id, relay } = request.body
+export default async function handler (request, response) {
+    const {filter = [], id, relay} = request.body
 
     const opts = {
-        id: id
+        id: id,
     }
 
     const relay_server = relayInit(relay)
@@ -25,5 +25,5 @@ export default async function handler(request, response) {
 
     return response.status(200).json({
         event: event,
-    });
+    })
 }

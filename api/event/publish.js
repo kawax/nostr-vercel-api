@@ -9,15 +9,20 @@ import {
 
 import 'websocket-polyfill'
 
-export default async function handler(request, response) {
-    const { event, sk, relay } = request.body
+export default async function handler (request, response) {
+    const {event, sk, relay} = request.body
+
+    event.created_at = event.created_at ?? Math.floor(Date.now() / 1000)
 
     event.pubkey = getPublicKey(sk)
     event.id = getEventHash(event)
     event.sig = signEvent(event, sk)
 
-    if (relay === undefined || !validateEvent(event) || !verifySignature(event)) {
-        return response.status(500).json({ error: 'error' })
+    if (relay === undefined
+        || !validateEvent(event)
+        || !verifySignature(event)
+    ) {
+        return response.status(500).json({error: 'error'})
     }
 
     const relay_server = relayInit(relay)
@@ -39,7 +44,7 @@ export default async function handler(request, response) {
 
         return response.status(201).json({
             message: `ok`,
-        });
+        })
     })
 
     pub.on('seen', () => {
@@ -53,6 +58,6 @@ export default async function handler(request, response) {
 
         return response.status(500).json({
             error: `${reason}`,
-        });
+        })
     })
 }
