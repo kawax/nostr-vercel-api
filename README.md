@@ -203,7 +203,7 @@ dump($response->json());
 //    'hash' => '',
 //]
 
-$hash = $response->json('hash');
+$event['id'] = $response->json('hash');
 
 // sign
 $response = Http::baseUrl('https://nostr-api.vercel.app/api/')
@@ -217,10 +217,7 @@ dump($response->json());
 //    'sign' => '',
 //]
 
-$sign = $response->json('sign');
-
-$event['id'] = $hash;
-$event['sig'] = $sign;
+$event['sig'] = $response->json('sign');
 ```
 
 ## LICENCE
