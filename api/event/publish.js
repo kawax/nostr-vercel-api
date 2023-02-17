@@ -44,6 +44,7 @@ export default async function handler (request, response) {
 
         return response.status(201).json({
             message: `ok`,
+            event: event,
         })
     })
 
