@@ -8,6 +8,7 @@ export default async function handler (request, response) {
     const profile = await nip05.queryProfile(user)
 
     return response.status(200).json({
+        user: user,
         pubkey: profile.pubkey,
         relays: profile.relays,
     })
