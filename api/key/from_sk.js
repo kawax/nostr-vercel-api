@@ -1,7 +1,7 @@
-const { nip19, getPublicKey } = require('nostr-tools')
+const {nip19, getPublicKey} = require('nostr-tools')
 
-export default function handler(request, response) {
-    const { sk } = request.query;
+export default function handler (request, response) {
+    const {sk} = request.query
 
     const nsec = nip19.nsecEncode(sk)
 
@@ -13,5 +13,5 @@ export default function handler(request, response) {
         nsec: nsec,
         pk: pk,
         npub: npub,
-    });
-  }
+    })
+}

@@ -1,11 +1,11 @@
-const { nip19, getPublicKey } = require('nostr-tools')
+const {nip19, getPublicKey} = require('nostr-tools')
 
-export default function handler(request, response) {
-    const { nsec } = request.query;
+export default function handler (request, response) {
+    const {nsec} = request.query
 
     const {type, data} = nip19.decode(nsec)
 
-    if(type !== 'nsec' || data === undefined){
+    if (type !== 'nsec' || data === undefined) {
         return response.status(500).json({error: 'error'})
     }
 
@@ -17,5 +17,5 @@ export default function handler(request, response) {
         nsec: nsec,
         pk: pk,
         npub: npub,
-    });
-  }
+    })
+}

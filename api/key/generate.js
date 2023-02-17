@@ -1,6 +1,6 @@
 const {nip19, generatePrivateKey, getPublicKey} = require('nostr-tools')
 
-export default function handler(request, response) {
+export default function handler (request, response) {
     const sk = generatePrivateKey()
     const nsec = nip19.nsecEncode(sk)
 
@@ -12,5 +12,5 @@ export default function handler(request, response) {
         nsec: nsec,
         pk: pk,
         npub: npub,
-    });
-  }
+    })
+}
