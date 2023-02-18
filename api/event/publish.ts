@@ -9,8 +9,11 @@ import {
 
 import 'websocket-polyfill'
 
-export default async function handler (request, response) {
-    const {event, sk, relay} = request.body
+import type {VercelRequest, VercelResponse} from '@vercel/node';
+import type {Event, Relay, Pub} from 'nostr-tools'
+
+export default async function handler(request: VercelRequest, response: VercelResponse) {
+    const {event, sk, relay}: { event: Event, sk: string, relay: string } = request.body
 
     event.created_at = event.created_at ?? Math.floor(Date.now() / 1000)
 
@@ -25,7 +28,7 @@ export default async function handler (request, response) {
         return response.status(500).json({error: 'error'})
     }
 
-    const relay_server = relayInit(relay)
+    const relay_server: Relay = relayInit(relay)
     await relay_server.connect()
 
     relay_server.on('connect', () => {
@@ -35,12 +38,12 @@ export default async function handler (request, response) {
         console.log(`failed to connect to ${relay_server.url}`)
     })
 
-    const pub = relay_server.publish(event)
+    const pub: Pub = relay_server.publish(event)
 
-    pub.on('ok', async () => {
+    pub.on('ok', () => {
         console.log(`${relay_server.url} has accepted our event`)
 
-        await relay_server.close()
+        relay_server.close()
 
         return response.status(201).json({
             message: `ok`,
@@ -48,14 +51,10 @@ export default async function handler (request, response) {
         })
     })
 
-    pub.on('seen', () => {
-        console.log(`we saw the event on ${relay_server.url}`)
-    })
-
-    pub.on('failed', async reason => {
+    pub.on('failed', reason => {
         console.log(`failed to publish to ${relay_server.url}: ${reason}`)
 
-        await relay_server.close()
+        relay_server.close()
 
         return response.status(500).json({
             error: `${reason}`,

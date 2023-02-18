@@ -20,5 +20,8 @@
     "node-fetch": "^2.6.9",
     "nostr-tools": "^1.4.0",
     "websocket-polyfill": "^0.0.3"
+  },
+  "devDependencies": {
+    "@vercel/node": "^2.9.6"
   }
 }
