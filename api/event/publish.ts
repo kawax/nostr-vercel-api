@@ -51,7 +51,7 @@ export default async function handler(request: VercelRequest, response: VercelRe
         })
     })
 
-    pub.on('failed', reason => {
+    pub.on('failed', (reason: string) => {
         console.log(`failed to publish to ${relay_server.url}: ${reason}`)
 
         relay_server.close()
