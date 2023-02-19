@@ -45,7 +45,7 @@ export default async function handler(request: VercelRequest, response: VercelRe
 
         relay_server.close()
 
-        return response.status(201).json({
+        return response.status(200).json({
             message: `ok`,
             event: event,
         })
