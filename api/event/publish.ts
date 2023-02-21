@@ -15,8 +15,6 @@ import type {Event, Relay, Pub} from 'nostr-tools'
 export default async function handler(request: VercelRequest, response: VercelResponse) {
     const {event, sk, relay}: { event: Event, sk: string, relay: string } = request.body
 
-    console.log(event)
-
     event.created_at = event.created_at ?? Math.floor(Date.now() / 1000)
 
     event.pubkey = getPublicKey(sk)
