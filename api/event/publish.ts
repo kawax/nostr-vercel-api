@@ -3,7 +3,6 @@ import {
     getPublicKey,
     getEventHash,
     signEvent,
-    validateEvent,
     verifySignature,
 } from 'nostr-tools'
 
