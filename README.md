@@ -221,5 +221,8 @@ dump($response->json());
 $event['sig'] = $response->json('sign');
 ```
 
+### see also Laravel package
+https://github.com/kawax/laravel-nostr
+
 ## LICENCE
 MIT
