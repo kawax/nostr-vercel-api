@@ -64,7 +64,7 @@ export default function handler(request: VercelRequest, response: VercelResponse
             break;
     }
 
-    if ('error' in err) {
+    if (err !== null) {
         return response.status(500).json(err)
     } else {
         return response.status(200).json(keys)
