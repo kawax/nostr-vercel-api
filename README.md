@@ -26,6 +26,7 @@ Frontend is not covered, CORS is not supported.
 | POST   | `event/get`     | `filter{ids: [], kinds: [], authors: [], since: 0, until: 0, limit: 0}`, `id`, `relay`    | `{event: {}}`                | Get first event.               |
 | POST   | `event/hash`    | `event`                                                                                   | `{hash: ""}`                 | event hash for `event.id`.     |
 | POST   | `event/sign`    | `event`, `sk`                                                                             | `{sign: ""}`                 | event sign for `event.sig`.    |
+| POST   | `event/verify`  | `event`                                                                                   | `{verify: true/false}`       | verify event.                  |
 
 ### NIP-05
 | method | path            | parameters | response                                            | description        |
