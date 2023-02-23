@@ -10,13 +10,10 @@ Frontend is not covered, CORS is not supported.
 - Base URL : https://nostr-api.vercel.app/api/
 
 ### Key
-| method | path            | parameters | response                                                             | description                     |
-|--------|-----------------|------------|----------------------------------------------------------------------|---------------------------------|
-| GET    | `key/generate`  | none       | `{sk: "secret key(hex)", nsec: "", pk: "public key(hex)", npub: ""}` | Generate new keys               |
-| GET    | `key/from_sk`   | `sk`       | `{sk: "secret key(hex)", nsec: "", pk: "public key(hex)", npub: ""}` | Get keys from given sk          |
-| GET    | `key/from_nsec` | `nsec`     | `{sk: "secret key(hex)", nsec: "", pk: "public key(hex)", npub: ""}` | Get keys from given nsec        |
-| GET    | `key/from_pk`   | `pk`       | `{pk: "public key(hex)", npub: ""}`                                  | Get public keys from given pk   |
-| GET    | `key/from_npub` | `npub`     | `{pk: "public key(hex)", npub: ""}`                                  | Get public keys from given npub |
+| method | path           | parameters                       | response                                                                                     | description                       |
+|--------|----------------|----------------------------------|----------------------------------------------------------------------------------------------|-----------------------------------|
+| GET    | `key/generate` | none                             | `{sk: "secret key(hex)", nsec: "", pk: "public key(hex)", npub: ""}`                         | Generate new keys                 |
+| GET    | `key/from`     | `sk` or `nsec` or `pk` or `npub` | `{sk: "secret key(hex)", nsec: "", pk: "public key(hex)", npub: ""}` or `{pk: "", npub: ""}` | Get converted keys from given key |
 
 ### Event
 | method | path            | parameters                                                                                | response                     | description                    |
@@ -61,7 +58,7 @@ use Illuminate\Support\Facades\Http;
 $nsec = '...';
 
 $response = Http::baseUrl('https://nostr-api.vercel.app/api/')
-                ->get('key/from_nsec', ['nsec' => $nsec]);
+                ->get('key/from', ['nsec' => $nsec]);
 
 dump($response->json());
 //[
