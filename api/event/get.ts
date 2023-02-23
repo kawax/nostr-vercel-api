@@ -24,7 +24,7 @@ export default async function handler(request: VercelRequest, response: VercelRe
         console.log(`failed to connect to ${relay_server.url}`)
     })
 
-    const event: Event = await relay_server.get(filter, opts)
+    const event = await relay_server.get(filter)
 
     return response.status(200).json({
         event: event,
