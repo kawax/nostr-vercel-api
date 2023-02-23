@@ -66,9 +66,9 @@ export default function handler(request: VercelRequest, response: VercelResponse
 
     if (err !== null) {
         return response.status(500).json(err)
-    } else {
-        return response.status(200).json(keys)
     }
+
+    return response.status(200).json(keys)
 }
 
 function from_sk(sk: string): [Key, Error] {
