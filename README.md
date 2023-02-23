@@ -25,12 +25,6 @@ Frontend is not covered, CORS is not supported.
 | POST   | `event/sign`    | `event`, `sk`                                                                             | `{sign: ""}`                 | event sign for `event.sig`.    |
 | POST   | `event/verify`  | `event`                                                                                   | `{verify: true/false}`       | verify event.                  |
 
-### NIP-05
-| method | path            | parameters | response                                            | description        |
-|--------|-----------------|------------|-----------------------------------------------------|--------------------|
-| GET    | `nip05/profile` | `user`     | `{user: "", pubkey: "public key(hex)", relays: []}` | Get NIP-05 profile |
-
-
 ## Laravel example
 
 ### Generate keys
@@ -159,23 +153,6 @@ dump($user);
 //[
 //    'display_name' => '',
 //    'nip05' => '',
-//]
-```
-
-### NIP-05
-```php
-use Illuminate\Support\Facades\Http;
-
-$response = Http::baseUrl('https://nostr-api.vercel.app/api/')
-                ->get('nip05/profile', [
-                    'user' => 'user@example.com',
-                ]);
-
-dump($response->json());
-//[
-//    'user' => 'user@example.com',
-//    'pubkey' => '',
-//    'relays' => [],
 //]
 ```
 
