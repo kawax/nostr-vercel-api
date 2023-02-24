@@ -5,8 +5,7 @@ import type {VercelRequest, VercelResponse} from '@vercel/node'
 import type {ProfilePointer, EventPointer, AddressPointer} from 'nostr-tools/nip19'
 
 export default async function handler(request: VercelRequest, response: VercelResponse) {
-    // @ts-ignore
-    const {action}: { action: string } = request.query
+    const {action}: { action?: string } = request.query
 
     switch (action) {
         case 'decode':
@@ -24,7 +23,7 @@ export default async function handler(request: VercelRequest, response: VercelRe
         case 'naddr':
             return naddrEncode(request, response)
         default:
-            return response.status(500).json({error: 'error'})
+            return response.status(404).json({error: 'Not Found'})
     }
 }
 
