@@ -64,7 +64,7 @@ use Illuminate\Support\Facades\Http;
 $nsec = '...';
 
 $response = Http::baseUrl('https://nostr-api.vercel.app/api/')
-                ->get('key/from', ['nsec' => $nsec]);
+                ->get('key/from_nsec', ['nsec' => $nsec]);
 
 dump($response->json());
 //[
