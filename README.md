@@ -10,10 +10,10 @@ Frontend is not covered, CORS is not supported.
 - Base URL : https://nostr-api.vercel.app/api/
 
 ### Key
-| method | path           | parameters                       | response                                                                                     | description                       |
-|--------|----------------|----------------------------------|----------------------------------------------------------------------------------------------|-----------------------------------|
-| GET    | `key/generate` | none                             | `{sk: "secret key(hex)", nsec: "", pk: "public key(hex)", npub: ""}`                         | Generate new keys                 |
-| GET    | `key/from`     | `sk` or `nsec` or `pk` or `npub` | `{sk: "secret key(hex)", nsec: "", pk: "public key(hex)", npub: ""}` or `{pk: "", npub: ""}` | Get converted keys from given key |
+| method | path           | parameters                               | response                                                                                     | description                       |
+|--------|----------------|------------------------------------------|----------------------------------------------------------------------------------------------|-----------------------------------|
+| GET    | `key/generate` | none                                     | `{sk: "secret key(hex)", nsec: "", pk: "public key(hex)", npub: ""}`                         | Generate new keys                 |
+| GET    | `key/from`     | `sk(string)` or `nsec` or `pk` or `npub` | `{sk: "secret key(hex)", nsec: "", pk: "public key(hex)", npub: ""}` or `{pk: "", npub: ""}` | Get converted keys from given key |
 
 ### Event
 | method | path            | parameters                                                                                | response                     | description                    |
@@ -21,9 +21,18 @@ Frontend is not covered, CORS is not supported.
 | POST   | `event/publish` | `event{kind: 1, content: "", created_at: 0, tags: []}`, `sk`, `relay`                     | `{message: "ok", event: {}}` | Publish new event              |
 | POST   | `event/list`    | `filters[{ids: [], kinds: [], authors: [], since: 0, until: 0, limit: 0}]`, `id`, `relay` | `{events: []}`               | Get events list. Until `EOSE`. |
 | POST   | `event/get`     | `filter{ids: [], kinds: [], authors: [], since: 0, until: 0, limit: 0}`, `id`, `relay`    | `{event: {}}`                | Get first event.               |
-| POST   | `event/hash`    | `event`                                                                                   | `{hash: ""}`                 | event hash for `event.id`.     |
-| POST   | `event/sign`    | `event`, `sk`                                                                             | `{sign: ""}`                 | event sign for `event.sig`.    |
-| POST   | `event/verify`  | `event`                                                                                   | `{verify: true/false}`       | verify event.                  |
+| POST   | `event/hash`    | `event{}`                                                                                 | `{hash: ""}`                 | event hash for `event.id`.     |
+| POST   | `event/sign`    | `event{}`, `sk`                                                                           | `{sign: ""}`                 | event sign for `event.sig`.    |
+| POST   | `event/verify`  | `event{}`                                                                                 | `{verify: true/false}`       | verify event.                  |
+
+### NIP-19
+| method | path             | parameters     | response                                | description                      |
+|--------|------------------|----------------|-----------------------------------------|----------------------------------|
+| POST   | `nip19/decode`   | `n(string)`    | `{type: "note,nprofile,...", data: {}}` | Decode n*** string.              |
+| POST   | `nip19/note`     | `note(string)` | `{note: ""}`                            | Encode note id to `note1...`     |
+| POST   | `nip19/nprofile` | `profile{}`    | `{nprofile: ""}`                        | Encode profile to `nprofile1...` |
+| POST   | `nip19/nevent`   | `event{}`      | `{nevent: ""}`                          | Encode event to `nevent1...`     |
+| POST   | `nip19/naddr`    | `addr{}`       | `{naddr: ""}`                           | Encode addr to `naddr1...`       |
 
 ## Laravel example
 
