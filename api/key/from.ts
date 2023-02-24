@@ -32,32 +32,16 @@ export default function handler(request: VercelRequest, response: VercelResponse
 
     switch (true) {
         case sk !== '':
-            try {
-                [keys, err] = from_sk(sk)
-            } catch (e) {
-                err = {error: "error"}
-            }
+            [keys, err] = from_sk(sk)
             break
         case nsec !== '':
-            try {
-                [keys, err] = from_nsec(nsec)
-            } catch (e) {
-                err = {error: "error"}
-            }
+            [keys, err] = from_nsec(nsec)
             break
         case pk !== '':
-            try {
-                [keys, err] = from_pk(pk)
-            } catch (e) {
-                err = {error: "error"}
-            }
+            [keys, err] = from_pk(pk)
             break
         case npub !== '':
-            try {
-                [keys, err] = from_npub(npub)
-            } catch (e) {
-                err = {error: "error"}
-            }
+            [keys, err] = from_npub(npub)
             break
         default:
             err = {error: 'error'}
@@ -72,10 +56,15 @@ export default function handler(request: VercelRequest, response: VercelResponse
 }
 
 function from_sk(sk: string): [Key, Error] {
-    const nsec = nip19.nsecEncode(sk)
+    let nsec: string, pk: string, npub: string
 
-    const pk = getPublicKey(sk)
-    const npub = nip19.npubEncode(pk)
+    try {
+        nsec = nip19.nsecEncode(sk)
+        pk = getPublicKey(sk)
+        npub = nip19.npubEncode(pk)
+    } catch (e) {
+        return [null, {error: `${e.message}`}]
+    }
 
     const keys: Key = {
         sk: sk,
@@ -88,17 +77,24 @@ function from_sk(sk: string): [Key, Error] {
 }
 
 function from_nsec(nsec: string): [Key, Error] {
-    const {type, data} = nip19.decode(nsec);
+    let sk: string, pk: string, npub: string
 
-    if (type !== 'nsec' || data === undefined || typeof data !== "string") {
-        return [null, {error: 'error'}]
+    try {
+        const {type, data} = nip19.decode(nsec);
+
+        if (type !== 'nsec' || data === undefined || typeof data !== 'string') {
+            return [null, {error: 'type error'}]
+        }
+
+        sk = data
+        pk = getPublicKey(sk)
+        npub = nip19.npubEncode(pk)
+    } catch (e) {
+        return [null, {error: `${e.message}`}]
     }
 
-    const pk = getPublicKey(data)
-    const npub = nip19.npubEncode(pk)
-
     const keys: Key = {
-        sk: data,
+        sk: sk,
         nsec: nsec,
         pk: pk,
         npub: npub,
@@ -108,7 +104,13 @@ function from_nsec(nsec: string): [Key, Error] {
 }
 
 function from_pk(pk: string): [Key, Error] {
-    const npub = nip19.npubEncode(pk)
+    let npub: string;
+
+    try {
+        npub = nip19.npubEncode(pk)
+    } catch (e) {
+        return [null, {error: `${e.message}`}]
+    }
 
     const keys: Key = {
         pk: pk,
@@ -119,14 +121,21 @@ function from_pk(pk: string): [Key, Error] {
 }
 
 function from_npub(npub: string): [Key, Error] {
-    const {type, data} = nip19.decode(npub)
+    let pk: string
 
-    if (type !== 'npub' || data === undefined || typeof data !== "string") {
-        return [null, {error: 'error'}]
+    try {
+        const {type, data} = nip19.decode(npub)
+
+        if (type !== 'npub' || data === undefined || typeof data !== 'string') {
+            return [null, {error: 'type error'}]
+        }
+        pk = data
+    } catch (e) {
+        return [null, {error: `${e.message}`}]
     }
 
     const keys: Key = {
-        pk: data,
+        pk: pk,
         npub: npub,
     };
 
