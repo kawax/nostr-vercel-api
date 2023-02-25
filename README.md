@@ -34,13 +34,13 @@ It is recommended that you deploy this API yourself.
 | POST   | `event/verify`  | `event{}`                                                                                 | `{verify: true/false}`       | verify event.                  |
 
 ### NIP-19
-| method | path             | parameters     | response                                | description                      |
-|--------|------------------|----------------|-----------------------------------------|----------------------------------|
-| POST   | `nip19/decode`   | `n(string)`    | `{type: "note,nprofile,...", data: {}}` | Decode n*** string.              |
-| POST   | `nip19/note`     | `note(string)` | `{note: ""}`                            | Encode note id to `note1...`     |
-| POST   | `nip19/nprofile` | `profile{}`    | `{nprofile: ""}`                        | Encode profile to `nprofile1...` |
-| POST   | `nip19/nevent`   | `event{}`      | `{nevent: ""}`                          | Encode event to `nevent1...`     |
-| POST   | `nip19/naddr`    | `addr{}`       | `{naddr: ""}`                           | Encode addr to `naddr1...`       |
+| method | path             | parameters                                              | response                                | description                      |
+|--------|------------------|---------------------------------------------------------|-----------------------------------------|----------------------------------|
+| POST   | `nip19/decode`   | `n(string)`                                             | `{type: "note,nprofile,...", data: {}}` | Decode n*** string.              |
+| POST   | `nip19/note`     | `note(string)`                                          | `{note: ""}`                            | Encode note id to `note1...`     |
+| POST   | `nip19/nprofile` | `profile{pubkey: "", relays: []}`                       | `{nprofile: ""}`                        | Encode profile to `nprofile1...` |
+| POST   | `nip19/nevent`   | `event{id: "", relays: []}`                             | `{nevent: ""}`                          | Encode event to `nevent1...`     |
+| POST   | `nip19/naddr`    | `addr{identifier: "", pubkey: "", kind: 0, relays: []}` | `{naddr: ""}`                           | Encode addr to `naddr1...`       |
 
 ## Laravel example
 
