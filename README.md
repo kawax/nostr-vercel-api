@@ -6,6 +6,11 @@ Nostr API for Server side
 WebAPI for using Nostr from server-side languages that are difficult to Schnorr signature.  
 Frontend is not covered, CORS is not supported.
 
+## Deploy your self
+It is recommended that you deploy this API yourself.
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fkawax%2Fnostr-vercel-api)
+
 ## API
 - Base URL : https://nostr-api.vercel.app/api/
 
