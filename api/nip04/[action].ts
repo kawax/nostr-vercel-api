@@ -2,6 +2,8 @@ import {nip04} from 'nostr-tools'
 
 import type {VercelRequest, VercelResponse} from '@vercel/node'
 
+// Vercel node.js is still v18. This api does not work yet. Waiting for v19 or higher.
+
 export default async function handler(request: VercelRequest, response: VercelResponse) {
     const {action}: { action?: string } = request.query
 
