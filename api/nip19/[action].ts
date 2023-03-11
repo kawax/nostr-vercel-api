@@ -2,7 +2,7 @@ import {nip19} from 'nostr-tools'
 
 import type {VercelRequest, VercelResponse} from '@vercel/node'
 
-import type {ProfilePointer, EventPointer, AddressPointer} from 'nostr-tools/nip19'
+import type {ProfilePointer, EventPointer, AddressPointer} from 'nostr-tools/lib/nip19'
 
 export default async function handler(request: VercelRequest, response: VercelResponse) {
     const {action}: { action?: string } = request.query
