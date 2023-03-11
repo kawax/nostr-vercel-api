@@ -13,7 +13,7 @@ vi.mock('nostr-tools', () => ({
             const pub = vi.importActual<typeof import('nostr-tools')>('nostr-tools')
             return {
                 ...pub,
-                on: vi.fn().mockImplementation((type, cb) => cb()).mockImplementation((type, cb) => cb()),
+                on: vi.fn().mockImplementationOnce((type, cb) => cb()).mockImplementationOnce((type, cb) => cb()),
             }
         }
 
@@ -21,7 +21,7 @@ vi.mock('nostr-tools', () => ({
         return {
             ...relay,
             connect: vi.fn(),
-            on: vi.fn().mockImplementation((type, cb) => cb()).mockImplementation((type, cb) => cb()),
+            on: vi.fn().mockImplementationOnce((type, cb) => cb()).mockImplementationOnce((type, cb) => cb()),
             close: vi.fn(),
             publish: pub,
         }
