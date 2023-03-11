@@ -9,7 +9,7 @@ vi.mock('nostr-tools', () => ({
         return {
             ...relay,
             connect: vi.fn(),
-            on: vi.fn(),
+            on: vi.fn().mockImplementation((type, cb) => cb()).mockImplementation((type, cb) => cb()),
             list: vi.fn(),
         }
     }
