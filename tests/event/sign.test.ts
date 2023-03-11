@@ -3,7 +3,7 @@ import {expect, test} from 'vitest'
 import sign from '../../api/event/sign'
 
 vi.mock('nostr-tools', () => ({
-    signEvent: (event, key) => 'sign'
+    signEvent: vi.fn()
 }));
 
 test('event/sign', () => {
