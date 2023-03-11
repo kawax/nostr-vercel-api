@@ -1,7 +1,8 @@
-import {expect, test, vi} from 'vitest'
-
+import {expect, test} from 'vitest'
 import publish from '../../api/event/publish'
-import {VercelRequest, VercelResponse} from "@vercel/node";
+import type {VercelRequest, VercelResponse} from "@vercel/node";
+
+vi.spyOn(console, 'log')
 
 vi.mock('nostr-tools', () => ({
     getPublicKey: vi.fn(),

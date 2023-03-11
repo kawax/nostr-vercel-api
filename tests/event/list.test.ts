@@ -1,7 +1,8 @@
 import {expect, test} from 'vitest'
-
 import list from '../../api/event/list'
-import {VercelRequest, VercelResponse} from "@vercel/node";
+import type {VercelRequest, VercelResponse} from "@vercel/node";
+
+vi.spyOn(console, 'log')
 
 vi.mock('nostr-tools', () => ({
     relayInit: () => {
