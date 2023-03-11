@@ -4,6 +4,8 @@ export default defineConfig({
     test: {
         globals: true,
 
+        mockReset: true,
+
         coverage: {
             provider: 'c8',
             reporter: ['lcovonly', 'clover'],
