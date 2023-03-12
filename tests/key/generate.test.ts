@@ -27,7 +27,6 @@ test('key/generate', () => {
     expect(key(<VercelRequest><unknown>req, <VercelResponse><unknown>res)).toBeTypeOf('object')
 })
 
-
 test('key/error', () => {
     const req = {
         query: {
@@ -42,4 +41,3 @@ test('key/error', () => {
 
     expect(key(<VercelRequest><unknown>req, <VercelResponse><unknown>res)).toBeTypeOf('object')
 })
-
