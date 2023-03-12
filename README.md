@@ -1,6 +1,9 @@
 Nostr API for Server side
 ====
 
+[![Test Coverage](https://api.codeclimate.com/v1/badges/7f679a1c8f0c17ef9899/test_coverage)](https://codeclimate.com/github/kawax/nostr-vercel-api/test_coverage)
+[![Maintainability](https://api.codeclimate.com/v1/badges/7f679a1c8f0c17ef9899/maintainability)](https://codeclimate.com/github/kawax/nostr-vercel-api/maintainability)
+
 **Work in progress**
 
 WebAPI for using Nostr from server-side languages that are difficult to Schnorr signature.  
