@@ -1,6 +1,7 @@
 import { expect, test } from 'vitest'
 
 import key from '../../api/key/[action]'
+import {VercelRequest, VercelResponse} from "@vercel/node";
 
 vi.mock('nostr-tools', () => ({
     generatePrivateKey: vi.fn(),
@@ -28,7 +29,7 @@ test('key/from_pk', () => {
         json: () => res,
     }
 
-    expect(key(req, res)).toBeTypeOf('object')
+    expect(key(<VercelRequest><unknown>req, <VercelResponse><unknown>res)).toBeTypeOf('object')
 })
 
 test('key/from_npub', () => {
@@ -44,7 +45,7 @@ test('key/from_npub', () => {
         json: () => res,
     }
 
-    expect(key(req, res)).toBeTypeOf('object')
+    expect(key(<VercelRequest><unknown>req, <VercelResponse><unknown>res)).toBeTypeOf('object')
 })
 
 test('key/from_nsec error', () => {
@@ -60,5 +61,5 @@ test('key/from_nsec error', () => {
         json: () => res,
     }
 
-    expect(key(req, res)).toBeTypeOf('object')
+    expect(key(<VercelRequest><unknown>req, <VercelResponse><unknown>res)).toBeTypeOf('object')
 })
