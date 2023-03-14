@@ -1,6 +1,7 @@
 import {expect, test} from 'vitest'
 import publish from '../../api/event/publish'
 import type {VercelRequest, VercelResponse} from "@vercel/node";
+import type {Pub, Relay} from "nostr-tools";
 
 vi.spyOn(console, 'log')
 
@@ -11,18 +12,18 @@ vi.mock('nostr-tools', () => ({
     verifySignature: () => true,
     relayInit: () => {
         const pub = () => {
-            const pub = vi.importActual<typeof import('nostr-tools')>('nostr-tools')
+            const pub = vi.importActual<Pub>('nostr-tools')
             return {
                 ...pub,
-                on: vi.fn().mockImplementationOnce((type, cb) => cb()).mockImplementationOnce((type, cb) => cb()),
+                on: vi.fn().mockImplementation((type, cb) => cb()),
             }
         }
 
-        const relay = vi.importActual<typeof import('nostr-tools')>('nostr-tools')
+        const relay = vi.importActual<Relay>('nostr-tools')
         return {
             ...relay,
             connect: vi.fn(),
-            on: vi.fn().mockImplementationOnce((type, cb) => cb()).mockImplementationOnce((type, cb) => cb()),
+            on: vi.fn().mockImplementation((type, cb) => cb()),
             close: vi.fn(),
             publish: pub,
         }
