@@ -29,3 +29,18 @@ test('nip19/decode', () => {
 
     expect(handler(<VercelRequest><unknown>req, <VercelResponse><unknown>res)).toBeTypeOf('object')
 })
+
+test('nip19/error', () => {
+    const req = {
+        query: {
+            action: '',
+        }
+    }
+
+    const res = {
+        status: () => res,
+        json: () => res,
+    }
+
+    expect(handler(<VercelRequest><unknown>req, <VercelResponse><unknown>res)).toBeTypeOf('object')
+})
