@@ -1,7 +1,7 @@
 import { expect, test } from 'vitest'
 
 import handler from '../../api/nip04/[action]'
-import {VercelRequest, VercelResponse} from "@vercel/node";
+import type {VercelRequest, VercelResponse} from "@vercel/node";
 
 vi.mock('nostr-tools', () => ({
     nip04: {

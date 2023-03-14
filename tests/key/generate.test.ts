@@ -1,7 +1,7 @@
 import { expect, test } from 'vitest'
 
 import key from '../../api/key/[action]'
-import {VercelRequest, VercelResponse} from "@vercel/node";
+import type {VercelRequest, VercelResponse} from "@vercel/node";
 
 vi.mock('nostr-tools', () => ({
     generatePrivateKey: vi.fn(),
