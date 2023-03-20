@@ -36,7 +36,7 @@ It is recommended that you deploy this API yourself.
 | POST   | `event/sign`    | `event{}`, `sk`                                                                           | `{sign: ""}`                 | event sign for `event.sig`.    |
 | POST   | `event/verify`  | `event{}`                                                                                 | `{verify: true/false}`       | verify event.                  |
 
-### NIP-19
+### NIP-19 bech32-encoded entities
 | method | path             | parameters                                              | response                                | description                      |
 |--------|------------------|---------------------------------------------------------|-----------------------------------------|----------------------------------|
 | POST   | `nip19/decode`   | `n(string)`                                             | `{type: "note,nprofile,...", data: {}}` | Decode n*** string.              |
@@ -44,6 +44,12 @@ It is recommended that you deploy this API yourself.
 | POST   | `nip19/nprofile` | `profile{pubkey: "", relays: []}`                       | `{nprofile: ""}`                        | Encode profile to `nprofile1...` |
 | POST   | `nip19/nevent`   | `event{id: "", relays: []}`                             | `{nevent: ""}`                          | Encode event to `nevent1...`     |
 | POST   | `nip19/naddr`    | `addr{identifier: "", pubkey: "", kind: 0, relays: []}` | `{naddr: ""}`                           | Encode addr to `naddr1...`       |
+
+### NIP-04 Encrypted Direct Message
+| method | path            | parameters                                                       | response           | description      |
+|--------|-----------------|------------------------------------------------------------------|--------------------|------------------|
+| POST   | `nip04/encrypt` | `sk(sender sk)`, `pk(receiver pk)`, `content(raw message)`       | `{encrypt: "..."}` | Encrypt message. |
+| POST   | `nip04/decrypt` | `sk(receiver sk)`, `pk(sender pk)`, `content(encrypted message)` | `{decrypt: "..."}` | Decrypt message. |
 
 ## Laravel example
 
