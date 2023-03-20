@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/kawax/nostr-vercel-api#readme",
   "dependencies": {
+    "@peculiar/webcrypto": "^1.4.1",
     "nostr-tools": "^1.4.0",
     "websocket-polyfill": "^0.0.3"
   },
