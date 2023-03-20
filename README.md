@@ -222,6 +222,74 @@ dump($response->json());
 $event['sig'] = $response->json('sign');
 ```
 
+### Direct Message
+sender side
+```php
+use Illuminate\Support\Facades\Http;
+
+$relay = 'wss://...';
+
+$sk1 = 'sender sk';
+$pk1 = 'sender pk';
+
+//$sk2 = 'receiver sk';
+$pk2 = 'receiver pk';
+
+$encrypt = Http::baseUrl('https://nostr-api.vercel.app/api/')
+                ->post('nip04/encrypt', [
+                    'sk' => $sk1,
+                    'pk' => $pk2,
+                    'content' => 'secret direct message',
+                ])->json('encrypt');
+
+$event = [
+    'kind' => 4,
+    'pubkey' => $pk1,
+    'tags' => [['p', $pk2]],
+    'content' => $encrypt,
+    'created_at' => now()->timestamp,
+];
+
+$response = Http::baseUrl('https://nostr-api.vercel.app/api/')
+                ->post('event/publish', [
+                    'event' => $event,
+                    'sk' => $sk1,
+                    'relay' => $relay,
+                ]);
+```
+
+receiver side
+```php
+use Illuminate\Support\Facades\Http;
+
+$relay = 'wss://...';
+
+//$sk1 = 'sender sk';
+$pk1 = 'sender pk';
+
+$sk2 = 'receiver sk';
+$pk2 = 'receiver pk';
+
+$filter = [
+    'kinds' => [4],
+    '#p' => [$pk2],
+    'limit' => 1,
+];
+
+$encrypt = Http::baseUrl('https://nostr-api.vercel.app/api/')
+                ->post('event/get', [
+                    'filter' => $filter,
+                    'relay' => $relay,
+                ])->json('event.content');
+
+$decrypt = Http::baseUrl('https://nostr-api.vercel.app/api/')
+                ->post('nip04/decrypt', [
+                    'sk' => $sk2,
+                    'pk' => $pk1,
+                    'content' => $encrypt,
+                ])->json('decrypt');
+```
+
 ### see also Laravel package
 https://github.com/kawax/laravel-nostr
 
