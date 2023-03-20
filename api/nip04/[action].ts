@@ -22,7 +22,7 @@ export default async function handler(request: VercelRequest, response: VercelRe
 }
 
 async function encrypt(request: VercelRequest, response: VercelResponse): Promise<VercelResponse> {
-    const {pk, sk, content}: { pk: string, sk: string, content: string } = request.body
+    const {sk, pk, content}: { sk: string, pk: string, content: string } = request.body
 
     const encrypt: string = await nip04.encrypt(sk, pk, content);
 
@@ -32,7 +32,7 @@ async function encrypt(request: VercelRequest, response: VercelResponse): Promis
 }
 
 async function decrypt(request: VercelRequest, response: VercelResponse): Promise<VercelResponse> {
-    const {pk, sk, content}: { pk: string, sk: string, content: string } = request.body
+    const {sk, pk, content}: { sk: string, pk: string, content: string } = request.body
 
     const decrypt: string = await nip04.decrypt(sk, pk, content);
 
