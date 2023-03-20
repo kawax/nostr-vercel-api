@@ -1,6 +1,9 @@
 import {nip04} from 'nostr-tools'
+import {Crypto} from "@peculiar/webcrypto";
 
 import type {VercelRequest, VercelResponse} from '@vercel/node'
+
+globalThis.crypto = new Crypto();
 
 // Vercel node.js is still v18. This api does not work yet. Waiting for v19 or higher.
 
