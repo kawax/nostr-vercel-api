@@ -3,9 +3,10 @@ import {Crypto} from "@peculiar/webcrypto";
 
 import type {VercelRequest, VercelResponse} from '@vercel/node'
 
-globalThis.crypto = new Crypto();
-
-// Vercel node.js is still v18. This api does not work yet. Waiting for v19 or higher.
+/* c8 ignore next 3 */
+if (!('crypto' in globalThis)) {
+    globalThis.crypto = new Crypto();
+}
 
 export default async function handler(request: VercelRequest, response: VercelResponse) {
     const {action}: { action?: string } = request.query
