@@ -18,13 +18,13 @@ It is recommended that you deploy this API yourself.
 - Base URL : https://nostr-api.vercel.app/api/
 
 ### Key
-| method | path            | parameters   | response                                                             | description                     |
-|--------|-----------------|--------------|----------------------------------------------------------------------|---------------------------------|
-| GET    | `key/generate`  | none         | `{sk: "secret key(hex)", nsec: "", pk: "public key(hex)", npub: ""}` | Generate new keys               |
-| GET    | `key/from_sk`   | `sk(string)` | `{sk: "secret key(hex)", nsec: "", pk: "public key(hex)", npub: ""}` | Get keys from given sk          |
-| GET    | `key/from_nsec` | `nsec`       | `{sk: "secret key(hex)", nsec: "", pk: "public key(hex)", npub: ""}` | Get keys from given nsec        |
-| GET    | `key/from_pk`   | `pk`         | `{pk: "public key(hex)", npub: ""}`                                  | Get public keys from given pk   |
-| GET    | `key/from_npub` | `npub`       | `{pk: "public key(hex)", npub: ""}`                                  | Get public keys from given npub |
+| method | path            | parameters   | response                                                             | description                                                     |
+|--------|-----------------|--------------|----------------------------------------------------------------------|-----------------------------------------------------------------|
+| GET    | `key/generate`  | none         | `{sk: "secret key(hex)", nsec: "", pk: "public key(hex)", npub: ""}` | Generates new key pairs.                                        |
+| GET    | `key/from_sk`   | `sk(string)` | `{sk: "secret key(hex)", nsec: "", pk: "public key(hex)", npub: ""}` | Returns the key pair associated with the given secret key.      |
+| GET    | `key/from_nsec` | `nsec`       | `{sk: "secret key(hex)", nsec: "", pk: "public key(hex)", npub: ""}` | Returns the key pair associated with the given nsec.            |
+| GET    | `key/from_pk`   | `pk`         | `{pk: "public key(hex)", npub: ""}`                                  | Returns the public key and npub associated with the given pk.   |
+| GET    | `key/from_npub` | `npub`       | `{pk: "public key(hex)", npub: ""}`                                  | Returns the public key and npub associated with the given npub. |
 
 ### Event
 | method | path            | parameters                                                                                | response                     | description                    |
