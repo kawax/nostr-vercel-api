@@ -1,0 +1,14 @@
+name: update
+
+on:
+  schedule:
+    - cron: '0 4 * * *' #UTC
+
+jobs:
+  npm:
+    uses: kawax/npm-workflow/.github/workflows/update.yml@v1
+    secrets:
+      token: ${{ secrets.GITHUB_TOKEN }}
+    with:
+      git-name: kawax
+      git-email: 1502086+kawax@users.noreply.github.com
