@@ -44,6 +44,7 @@ It is recommended that you deploy this API yourself.
 | POST   | `nip19/nprofile` | `profile{pubkey: "", relays: []}`                       | `{nprofile: ""}`                        | Encode profile to `nprofile1...` |
 | POST   | `nip19/nevent`   | `event{id: "", relays: []}`                             | `{nevent: ""}`                          | Encode event to `nevent1...`     |
 | POST   | `nip19/naddr`    | `addr{identifier: "", pubkey: "", kind: 0, relays: []}` | `{naddr: ""}`                           | Encode addr to `naddr1...`       |
+| POST   | `nip19/nrelay`   | `relay(string)`                                         | `{nrelay: ""}`                          | Encode relay to `nrelay1...`     |
 
 ### NIP-04 Encrypted Direct Message
 | method | path            | parameters                                                       | response           | description      |

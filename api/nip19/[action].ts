@@ -22,6 +22,8 @@ export default async function handler(request: VercelRequest, response: VercelRe
             return neventEncode(request, response)
         case 'naddr':
             return naddrEncode(request, response)
+        case 'nrelay':
+            return nrelayEncode(request, response)
         default:
             return response.status(404).json({error: 'Not Found'})
     }
@@ -95,5 +97,15 @@ function naddrEncode(request: VercelRequest, response: VercelResponse): VercelRe
 
     return response.status(200).json({
         naddr: naddr,
+    })
+}
+
+function nrelayEncode(request: VercelRequest, response: VercelResponse): VercelResponse {
+    const {relay}: { relay: string } = request.body
+
+    const nrelay: string = nip19.nrelayEncode(relay);
+
+    return response.status(200).json({
+        nrelay: nrelay,
     })
 }
