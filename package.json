@@ -24,7 +24,7 @@
   },
   "devDependencies": {
     "@vercel/node": "^2.9.6",
-    "@vitest/coverage-c8": "^0.29.2",
-    "vitest": "^0.29.2"
+    "@vitest/coverage-c8": "^0.30.0",
+    "vitest": "^0.30.0"
   }
 }
