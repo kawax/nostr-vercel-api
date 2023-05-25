@@ -8,7 +8,7 @@ vi.spyOn(console, 'log')
 vi.mock('nostr-tools', () => ({
     getPublicKey: vi.fn(),
     getEventHash: vi.fn(),
-    signEvent: vi.fn(),
+    getSignature: vi.fn(),
     verifySignature: () => true,
     relayInit: () => {
         const pub = () => {
