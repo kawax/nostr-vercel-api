@@ -2,7 +2,7 @@ import {
     relayInit,
     getPublicKey,
     getEventHash,
-    signEvent,
+    getSignature,
     verifySignature,
 } from 'nostr-tools'
 
@@ -18,7 +18,7 @@ export default async function handler(request: VercelRequest, response: VercelRe
 
     event.pubkey = getPublicKey(sk)
     event.id = getEventHash(event)
-    event.sig = signEvent(event, sk)
+    event.sig = getSignature(event, sk)
 
     if (relay === undefined || !verifySignature(event)) {
         return response.status(500).json({error: 'error'})
