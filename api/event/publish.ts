@@ -9,7 +9,7 @@ import {
 import 'websocket-polyfill'
 
 import type {VercelRequest, VercelResponse} from '@vercel/node';
-import type {Event, Relay, Pub} from 'nostr-tools'
+import type {Event, Relay} from 'nostr-tools'
 
 export default async function handler(request: VercelRequest, response: VercelResponse) {
     const {event, sk, relay}: { event: Event, sk: string, relay: string } = request.body
@@ -34,26 +34,12 @@ export default async function handler(request: VercelRequest, response: VercelRe
         console.log(`failed to connect to ${relay_server.url}`)
     })
 
-    const pub: Pub = relay_server.publish(event)
+    await relay_server.publish(event)
 
-    pub.on('ok', () => {
-        console.log(`${relay_server.url} has accepted our event`)
+    relay_server.close()
 
-        relay_server.close()
-
-        return response.status(200).json({
-            message: `ok`,
-            event: event,
-        })
-    })
-
-    pub.on('failed', (reason: string) => {
-        console.log(`failed to publish to ${relay_server.url}: ${reason}`)
-
-        relay_server.close()
-
-        return response.status(500).json({
-            error: `${reason}`,
-        })
+    return response.status(200).json({
+        message: `ok`,
+        event: event,
     })
 }
