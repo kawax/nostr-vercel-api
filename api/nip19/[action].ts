@@ -36,7 +36,7 @@ function decode(request: VercelRequest, response: VercelResponse): VercelRespons
 
     return response.status(200).json({
         type: type,
-        data: data,
+        data: data instanceof Uint8Array ? Buffer.from(data).toString("hex") : data,
     })
 }
 
