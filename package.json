@@ -1,6 +1,5 @@
 {
   "name": "nostr-vercel-api",
-  "type": "commonjs",
   "private": true,
   "version": "1.0.0",
   "description": "",
