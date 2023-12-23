@@ -2,14 +2,25 @@ import {expect, test} from 'vitest'
 
 import verify from '../../api/event/verify'
 
-vi.mock('nostr-tools', () => ({
-    verifySignature: vi.fn()
-}));
+import {
+    finalizeEvent,
+    generateSecretKey
+} from 'nostr-tools'
 
 test('event/verify', () => {
+    const event = finalizeEvent(
+        {
+            kind: 1,
+            tags: [],
+            content: 'test',
+            created_at: 0,
+        },
+        generateSecretKey(),
+    )
+
     const req = {
         body: {
-            event: {},
+            event: event,
         }
     }
 

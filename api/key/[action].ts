@@ -1,7 +1,7 @@
 import {
     nip19,
     getPublicKey,
-    generatePrivateKey
+    generateSecretKey
 } from 'nostr-tools'
 
 import type {VercelRequest, VercelResponse} from '@vercel/node';
@@ -26,7 +26,7 @@ export default function handler(request: VercelRequest, response: VercelResponse
 }
 
 function generate(request: VercelRequest, response: VercelResponse): VercelResponse {
-    const sk = generatePrivateKey()
+    const sk = generateSecretKey()
     const nsec = nip19.nsecEncode(sk)
 
     const pk = getPublicKey(sk)
@@ -43,8 +43,8 @@ function generate(request: VercelRequest, response: VercelResponse): VercelRespo
 function from_sk(request: VercelRequest, response: VercelResponse): VercelResponse {
     const {sk}: { sk?: string } = request.query
 
-    const nsec = nip19.nsecEncode(sk)
-    const pk = getPublicKey(sk)
+    const nsec = nip19.nsecEncode(Uint8Array.from(Buffer.from(sk, "hex")))
+    const pk = getPublicKey(Uint8Array.from(Buffer.from(sk, "hex")))
     const npub = nip19.npubEncode(pk)
 
     return response.status(200).json({
