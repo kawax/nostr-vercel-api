@@ -68,7 +68,7 @@ function from_nsec(request: VercelRequest, response: VercelResponse): VercelResp
     const npub = nip19.npubEncode(pk)
 
     return response.status(200).json({
-        sk: data,
+        sk: Buffer.from(data).toString("hex"),
         nsec: nsec,
         pk: pk,
         npub: npub,
