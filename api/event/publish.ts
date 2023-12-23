@@ -1,14 +1,14 @@
 import {
     finalizeEvent,
     verifyEvent,
-} from 'nostr-tools/pure'
+} from 'nostr-tools'
 
-import { Relay } from 'nostr-tools/relay'
+import { Relay } from 'nostr-tools'
 
 import 'websocket-polyfill'
 
 import type {VercelRequest, VercelResponse} from '@vercel/node';
-import type {Event, VerifiedEvent} from 'nostr-tools/pure'
+import type {Event, VerifiedEvent} from 'nostr-tools'
 
 export default async function handler(request: VercelRequest, response: VercelResponse) {
     const {event, sk, relay}: { event: Event, sk: string, relay: string } = request.body

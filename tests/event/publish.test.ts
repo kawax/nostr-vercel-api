@@ -4,12 +4,12 @@ import type {VercelRequest, VercelResponse} from "@vercel/node";
 
 vi.spyOn(console, 'log')
 
-vi.mock('nostr-tools/pure', () => ({
+vi.mock('nostr-tools', () => ({
     finalizeEvent: vi.fn(),
     verifyEvent: () => false,
 }));
 
-vi.mock('nostr-tools/relay', () => ({
+vi.mock('nostr-tools', () => ({
     Relay: {
         connect: vi.fn(),
         publish: vi.fn(),
