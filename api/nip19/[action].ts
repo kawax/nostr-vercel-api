@@ -30,7 +30,7 @@ export default async function handler(request: VercelRequest, response: VercelRe
 }
 
 function decode(request: VercelRequest, response: VercelResponse): VercelResponse {
-    const {n} = request.body
+    const {n}: { n: string } = request.body
 
     const {type, data} = nip19.decode(n);
 
