@@ -1,9 +1,8 @@
 import {
     finalizeEvent,
     verifyEvent,
+    Relay,
 } from 'nostr-tools'
-
-import { Relay } from 'nostr-tools'
 
 import 'websocket-polyfill'
 
