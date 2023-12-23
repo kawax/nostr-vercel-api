@@ -60,7 +60,7 @@ function from_nsec(request: VercelRequest, response: VercelResponse): VercelResp
 
     const {type, data} = nip19.decode(nsec ?? '');
 
-    if (type !== 'nsec' || data === undefined || typeof data !== 'string') {
+    if (type !== 'nsec' || data === undefined) {
         return response.status(500).json({error: 'type error'})
     }
 
