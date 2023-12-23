@@ -25,8 +25,8 @@ test('event/verify', () => {
     }
 
     const res = {
-        status: (statusCode) => res,
-        json: (jsonBody) => res,
+        status: (statusCode: any) => res,
+        json: (jsonBody: any) => res,
     }
 
     expect(verify(req, res)).toBe(res)

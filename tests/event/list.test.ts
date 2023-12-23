@@ -21,8 +21,8 @@ test('event/list', () => {
     }
 
     const res = {
-        status: (statusCode) => res,
-        json: (jsonBody) => res,
+        status: (statusCode: any) => res,
+        json: (jsonBody: any) => res,
     }
 
     expect(list(<VercelRequest>req, <VercelResponse>res)).toBeTypeOf("object")

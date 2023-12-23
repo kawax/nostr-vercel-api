@@ -43,8 +43,8 @@ function generate(request: VercelRequest, response: VercelResponse): VercelRespo
 function from_sk(request: VercelRequest, response: VercelResponse): VercelResponse {
     const {sk}: { sk?: string } = request.query
 
-    const nsec = nip19.nsecEncode(Uint8Array.from(Buffer.from(sk, "hex")))
-    const pk = getPublicKey(Uint8Array.from(Buffer.from(sk, "hex")))
+    const nsec = nip19.nsecEncode(Uint8Array.from(Buffer.from(sk ?? '', "hex")))
+    const pk = getPublicKey(Uint8Array.from(Buffer.from(sk ?? '', "hex")))
     const npub = nip19.npubEncode(pk)
 
     return response.status(200).json({
@@ -58,7 +58,7 @@ function from_sk(request: VercelRequest, response: VercelResponse): VercelRespon
 function from_nsec(request: VercelRequest, response: VercelResponse): VercelResponse {
     const {nsec}: { nsec?: string } = request.query
 
-    const {type, data} = nip19.decode(nsec);
+    const {type, data} = nip19.decode(nsec ?? '');
 
     if (type !== 'nsec' || data === undefined || typeof data !== 'string') {
         return response.status(500).json({error: 'type error'})
@@ -78,7 +78,7 @@ function from_nsec(request: VercelRequest, response: VercelResponse): VercelResp
 function from_pk(request: VercelRequest, response: VercelResponse): VercelResponse {
     const {pk}: { pk?: string } = request.query
 
-    const npub = nip19.npubEncode(pk)
+    const npub = nip19.npubEncode(pk ?? '')
 
     return response.status(200).json({
         pk: pk,
@@ -89,7 +89,7 @@ function from_pk(request: VercelRequest, response: VercelResponse): VercelRespon
 function from_npub(request: VercelRequest, response: VercelResponse): VercelResponse {
     const {npub}: { npub?: string } = request.query
 
-    const {type, data} = nip19.decode(npub)
+    const {type, data} = nip19.decode(npub ?? '')
 
     if (type !== 'npub' || data === undefined || typeof data !== 'string') {
         return response.status(500).json({error: 'type error'})

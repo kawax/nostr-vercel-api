@@ -1,12 +1,6 @@
-import {expect, test} from 'vitest'
-
-import {
-    getPublicKey,
-    generateSecretKey
-} from 'nostr-tools'
-
-import sign from '../../api/event/sign'
-
+import { expect, test } from 'vitest';
+import { getPublicKey, generateSecretKey } from 'nostr-tools';
+import sign from '../../api/event/sign';
 test('event/sign', () => {
     const req = {
         body: {
@@ -19,12 +13,10 @@ test('event/sign', () => {
             },
             sk: generateSecretKey(),
         }
-    }
-
+    };
     const res = {
-        status: (statusCode: any) => res,
-        json: (jsonBody: any) => res,
-    }
-
-    expect(sign(req, res)).toBe(res)
+        status: (statusCode) => res,
+        json: (jsonBody) => res,
+    };
+    expect(sign(req, res)).toBe(res);
 });
