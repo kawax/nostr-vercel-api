@@ -26,14 +26,14 @@ export default function handler(request: VercelRequest, response: VercelResponse
 }
 
 function generate(request: VercelRequest, response: VercelResponse): VercelResponse {
-    const sk = generateSecretKey()
+    const sk : Uint8Array = generateSecretKey()
     const nsec = nip19.nsecEncode(sk)
 
-    const pk = getPublicKey(sk)
+    const pk : string = getPublicKey(sk)
     const npub = nip19.npubEncode(pk)
 
     return response.status(200).json({
-        sk: sk,
+        sk: Buffer.from(sk).toString("hex"),
         nsec: nsec,
         pk: pk,
         npub: npub,
