@@ -1,13 +1,15 @@
 import {expect, test} from 'vitest'
 import publish from '../../api/event/publish'
 import type {VercelRequest, VercelResponse} from "@vercel/node";
-import type {Relay, Event} from "nostr-tools";
 
 vi.spyOn(console, 'log')
 
-vi.mock('nostr-tools', () => ({
+vi.mock('nostr-tools/pure', () => ({
     finalizeEvent: vi.fn(),
     verifyEvent: () => false,
+}));
+
+vi.mock('nostr-tools/relay', () => ({
     Relay: {
         connect: vi.fn(),
         publish: vi.fn(),
