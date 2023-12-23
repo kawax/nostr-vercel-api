@@ -27,14 +27,14 @@ It is recommended that you deploy this API yourself.
 | GET    | `key/from_npub` | `npub`       | `{pk: "public key(hex)", npub: ""}`                                  | Returns the public key and npub associated with the given npub. |
 
 ### Event
-| method | path            | parameters                                                                                | response                     | description                    |
-|--------|-----------------|-------------------------------------------------------------------------------------------|------------------------------|--------------------------------|
-| POST   | `event/publish` | `event{kind: 1, content: "", created_at: 0, tags: []}`, `sk`, `relay`                     | `{message: "ok", event: {}}` | Publish new event              |
-| POST   | `event/list`    | `filters[{ids: [], kinds: [], authors: [], since: 0, until: 0, limit: 0}]`, `id`, `relay` | `{events: []}`               | Get events list. Until `EOSE`. |
-| POST   | `event/get`     | `filter{ids: [], kinds: [], authors: [], since: 0, until: 0, limit: 0}`, `id`, `relay`    | `{event: {}}`                | Get first event.               |
-| POST   | `event/hash`    | `event{}`                                                                                 | `{hash: ""}`                 | event hash for `event.id`.     |
-| POST   | `event/sign`    | `event{}`, `sk`                                                                           | `{sign: ""}`                 | event sign for `event.sig`.    |
-| POST   | `event/verify`  | `event{}`                                                                                 | `{verify: true/false}`       | verify event.                  |
+| method | path            | parameters                                                                             | response                     | description                    |
+|--------|-----------------|----------------------------------------------------------------------------------------|------------------------------|--------------------------------|
+| POST   | `event/publish` | `event{kind: 1, content: "", created_at: 0, tags: []}`, `sk`, `relay`                  | `{message: "ok", event: {}}` | Publish new event              |
+| POST   | `event/list`    | `filter{ids: [], kinds: [], authors: [], since: 0, until: 0, limit: 0}`, `id`, `relay` | `{events: []}`               | Get events list. Until `EOSE`. |
+| POST   | `event/get`     | `filter{ids: [], kinds: [], authors: [], since: 0, until: 0, limit: 0}`, `id`, `relay` | `{event: {}}`                | Get first event.               |
+| POST   | `event/hash`    | `event{}`                                                                              | `{hash: ""}`                 | event hash for `event.id`.     |
+| POST   | `event/sign`    | `event{}`, `sk`                                                                        | `{sign: ""}`                 | event sign for `event.sig`.    |
+| POST   | `event/verify`  | `event{}`                                                                              | `{verify: true/false}`       | verify event.                  |
 
 ### NIP-19 bech32-encoded entities
 | method | path             | parameters                                              | response                                | description                      |
@@ -136,7 +136,7 @@ $filter = [
 
 $response = Http::baseUrl('https://nostr-api.vercel.app/api/')
                 ->post('event/list', [
-                    'filters' => [$filter],
+                    'filter' => $filter,
                     'relay' => $relay,
                 ]);
 

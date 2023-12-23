@@ -1,16 +1,23 @@
 import {expect, test} from 'vitest'
 
-import sign from '../../api/event/sign'
+import {
+    getPublicKey,
+    generateSecretKey
+} from 'nostr-tools'
 
-vi.mock('nostr-tools', () => ({
-    signEvent: vi.fn()
-}));
+import sign from '../../api/event/sign'
 
 test('event/sign', () => {
     const req = {
         body: {
-            event: {},
-            sk: '',
+            event: {
+                kind: 1,
+                pubkey: getPublicKey(generateSecretKey()),
+                created_at: 0,
+                content: 'test',
+                tags: [],
+            },
+            sk: generateSecretKey(),
         }
     }
 

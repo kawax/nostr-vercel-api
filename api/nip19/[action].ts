@@ -2,7 +2,7 @@ import {nip19} from 'nostr-tools'
 
 import type {VercelRequest, VercelResponse} from '@vercel/node'
 
-import type {ProfilePointer, EventPointer, AddressPointer} from 'nostr-tools/lib/nip19'
+import type {ProfilePointer, EventPointer, AddressPointer} from 'nostr-tools/lib/types/nip19'
 
 export default async function handler(request: VercelRequest, response: VercelResponse) {
     const {action}: { action?: string } = request.query
@@ -43,7 +43,7 @@ function decode(request: VercelRequest, response: VercelResponse): VercelRespons
 function nsecEncode(request: VercelRequest, response: VercelResponse): VercelResponse {
     const {sk}: { sk: string } = request.body
 
-    const nsec = nip19.nsecEncode(sk);
+    const nsec = nip19.nsecEncode(Uint8Array.from(Buffer.from(sk, "hex")));
 
     return response.status(200).json({
         nsec: nsec,

@@ -6,19 +6,11 @@ import type {Relay, Event} from "nostr-tools";
 vi.spyOn(console, 'log')
 
 vi.mock('nostr-tools', () => ({
-    getPublicKey: vi.fn(),
-    getEventHash: vi.fn(),
-    getSignature: vi.fn(),
-    verifySignature: () => true,
-    relayInit: () => {
-        const relay = vi.importActual<Relay>('nostr-tools')
-        return {
-            ...relay,
-            connect: vi.fn(),
-            on: vi.fn().mockImplementation((type, cb) => cb()),
-            close: vi.fn(),
-            publish: vi.fn((event: Event) => Promise.resolve()),
-        }
+    finalizeEvent: vi.fn(),
+    verifyEvent: () => false,
+    Relay: {
+        connect: vi.fn(),
+        publish: vi.fn(),
     },
 }));
 

@@ -1,6 +1,6 @@
 import {
     getEventHash,
-} from 'nostr-tools'
+} from 'nostr-tools/pure'
 
 export default function handler (request, response) {
     const {event} = request.body

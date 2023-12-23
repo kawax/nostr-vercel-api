@@ -1,21 +1,16 @@
 import {expect, test} from 'vitest'
 import get from '../../api/event/get'
 import type {VercelRequest, VercelResponse} from "@vercel/node";
-import type {Relay} from "nostr-tools";
+import {SimplePool} from "nostr-tools";
 
 vi.spyOn(console, 'log')
 
-vi.mock('nostr-tools', () => ({
-    relayInit: () => {
-        const relay = vi.importActual<Relay>('nostr-tools')
-        return {
-            ...relay,
-            connect: vi.fn(),
-            on: vi.fn().mockImplementation((type, cb) => cb()),
-            get: vi.fn(),
-        }
-    }
-}));
+vi.mock('nostr-tools', () => {
+    const SimplePool = vi.fn()
+    SimplePool.prototype.get = vi.fn()
+
+    return { SimplePool }
+});
 
 test('event/get', () => {
     const req = {
