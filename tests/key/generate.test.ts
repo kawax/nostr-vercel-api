@@ -3,15 +3,6 @@ import { expect, test } from 'vitest'
 import key from '../../api/key/[action]'
 import type {VercelRequest, VercelResponse} from "@vercel/node";
 
-vi.mock('nostr-tools', () => ({
-    generateSecretKey: vi.fn(),
-    getPublicKey: vi.fn(),
-    nip19: {
-        nsecEncode: vi.fn(),
-        npubEncode: vi.fn(),
-    },
-}))
-
 test('key/generate', () => {
     const req = {
         query: {
