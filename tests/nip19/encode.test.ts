@@ -15,6 +15,10 @@ vi.mock('nostr-tools', () => ({
     },
 }))
 
+vi.mock('@noble/hashes/utils', () => ({
+    hexToBytes: vi.fn(),
+}))
+
 test('nip19/nsec', () => {
     const req = {
         query: {

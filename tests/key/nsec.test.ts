@@ -16,6 +16,11 @@ vi.mock('nostr-tools', () => ({
     },
 }))
 
+vi.mock('@noble/hashes/utils', () => ({
+    hexToBytes: vi.fn(),
+    bytesToHex: vi.fn(),
+}))
+
 test('key/from_sk', () => {
     const req = {
         query: {

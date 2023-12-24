@@ -5,6 +5,8 @@ import {
     generateSecretKey
 } from 'nostr-tools'
 
+import { bytesToHex } from '@noble/hashes/utils'
+
 import sign from '../../api/event/sign'
 
 test('event/sign', () => {
@@ -17,7 +19,7 @@ test('event/sign', () => {
                 content: 'test',
                 tags: [],
             },
-            sk: generateSecretKey(),
+            sk: bytesToHex(generateSecretKey()),
         }
     }
 
