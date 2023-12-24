@@ -4,6 +4,8 @@ import {
     generateSecretKey
 } from 'nostr-tools'
 
+import { bytesToHex, hexToBytes } from '@noble/hashes/utils'
+
 import type {VercelRequest, VercelResponse} from '@vercel/node';
 
 export default function handler(request: VercelRequest, response: VercelResponse) {
@@ -33,7 +35,7 @@ function generate(request: VercelRequest, response: VercelResponse): VercelRespo
     const npub = nip19.npubEncode(pk)
 
     return response.status(200).json({
-        sk: Buffer.from(sk).toString("hex"),
+        sk: bytesToHex(sk),
         nsec: nsec,
         pk: pk,
         npub: npub,
@@ -43,8 +45,8 @@ function generate(request: VercelRequest, response: VercelResponse): VercelRespo
 function from_sk(request: VercelRequest, response: VercelResponse): VercelResponse {
     const {sk}: { sk?: string } = request.query
 
-    const nsec = nip19.nsecEncode(Uint8Array.from(Buffer.from(sk ?? '', "hex")))
-    const pk = getPublicKey(Uint8Array.from(Buffer.from(sk ?? '', "hex")))
+    const nsec = nip19.nsecEncode(hexToBytes(sk ?? ''))
+    const pk = getPublicKey(hexToBytes(sk ?? ''))
     const npub = nip19.npubEncode(pk)
 
     return response.status(200).json({
@@ -68,7 +70,7 @@ function from_nsec(request: VercelRequest, response: VercelResponse): VercelResp
     const npub = nip19.npubEncode(pk)
 
     return response.status(200).json({
-        sk: Buffer.from(data).toString("hex"),
+        sk: bytesToHex(data),
         nsec: nsec,
         pk: pk,
         npub: npub,

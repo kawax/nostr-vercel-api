@@ -4,6 +4,8 @@ import {
     Relay,
 } from 'nostr-tools'
 
+import { hexToBytes } from '@noble/hashes/utils'
+
 import 'websocket-polyfill'
 
 import type {VercelRequest, VercelResponse} from '@vercel/node';
@@ -14,7 +16,7 @@ export default async function handler(request: VercelRequest, response: VercelRe
 
     event.created_at = event.created_at ?? Math.floor(Date.now() / 1000)
 
-    const secret_key : Uint8Array = Uint8Array.from(Buffer.from(sk, "hex"))
+    const secret_key : Uint8Array = hexToBytes(sk)
 
     const signedEvent : VerifiedEvent = finalizeEvent(event, secret_key)
 
