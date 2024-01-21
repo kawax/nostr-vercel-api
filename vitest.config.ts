@@ -7,7 +7,7 @@ export default defineConfig({
         mockReset: true,
 
         coverage: {
-            provider: 'c8',
+            provider: 'v8',
             reporter: ['lcovonly', 'clover'],
         },
     },

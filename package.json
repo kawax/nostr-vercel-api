@@ -26,9 +26,9 @@
     "websocket-polyfill": "^0.0.3"
   },
   "devDependencies": {
-    "@vercel/node": "^2.9.6",
-    "@vitest/coverage-c8": "^0.30.0",
+    "@vercel/node": "^3.0.0",
+    "@vitest/coverage-v8": "^1.2.1",
     "vercel": "^33.0.1",
-    "vitest": "^0.30.0"
+    "vitest": "^1.2.1"
   }
 }
