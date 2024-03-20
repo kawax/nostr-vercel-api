@@ -22,12 +22,12 @@ export default async function handler(request: VercelRequest, response: VercelRe
 
     await signedEvent.sign()
 
-    console.log(signedEvent.toNostrEvent())
+    console.log(await signedEvent.toNostrEvent())
 
     await signedEvent.publish(relaySet);
 
     return response.status(200).json({
         message: `ok`,
-        event: signedEvent,
+        event: await signedEvent.toNostrEvent(),
     })
 }
