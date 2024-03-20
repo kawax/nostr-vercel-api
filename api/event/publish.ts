@@ -24,7 +24,9 @@ export default async function handler(request: VercelRequest, response: VercelRe
 
     console.log(await signedEvent.toNostrEvent())
 
-    await signedEvent.publish(relaySet);
+    const relays: Set<NDKRelay> = await signedEvent.publish(relaySet);
+
+    console.log(relays)
 
     return response.status(200).json({
         message: `ok`,
