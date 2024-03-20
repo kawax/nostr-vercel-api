@@ -1,22 +1,16 @@
-import {NostrSystem, ReqFilter, RequestBuilder, TaggedNostrEvent} from "@snort/system";
+import {SimplePool} from 'nostr-tools'
 
 import type {VercelRequest, VercelResponse} from '@vercel/node';
+import type {Event, Filter} from 'nostr-tools'
 
 export default async function handler(request: VercelRequest, response: VercelResponse) {
-    const {filter, relay}: { filter: ReqFilter, relay: string } = request.body
+    const {filter, relay}: { filter: Filter, relay: string } = request.body
 
     console.log(filter, relay)
 
-    const System: NostrSystem = new NostrSystem({});
+    const pool: SimplePool = new SimplePool()
 
-    await System.Init();
-
-    await System.ConnectToRelay(relay, {read: true, write: false});
-
-    const rb: RequestBuilder = new RequestBuilder('event-list');
-    rb.withBareFilter(filter);
-
-    const events: TaggedNostrEvent[] = await System.Fetch(rb)
+    const events: Event[] = await pool.querySync([relay], filter)
 
     console.log(events)
 

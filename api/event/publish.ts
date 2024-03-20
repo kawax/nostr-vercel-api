@@ -1,29 +1,37 @@
-import {NostrSystem, EventBuilder, NotSignedNostrEvent, NostrEvent} from "@snort/system";
+import {
+    finalizeEvent,
+    verifyEvent,
+    Relay,
+    useWebSocketImplementation,
+} from 'nostr-tools'
+
+import { hexToBytes } from '@noble/hashes/utils'
+
+import { WebSocket } from "ws";
 
 import type {VercelRequest, VercelResponse} from '@vercel/node';
+import type {Event, VerifiedEvent} from 'nostr-tools'
 
 export default async function handler(request: VercelRequest, response: VercelResponse) {
-    const {event, sk, relay}: { event: NotSignedNostrEvent, sk: string, relay: string } = request.body
+    const {event, sk, relay}: { event: Event, sk: string, relay: string } = request.body
 
-    console.log(event, relay)
+    useWebSocketImplementation(WebSocket)
 
-    const System: NostrSystem = new NostrSystem({});
+    event.created_at = event.created_at ?? Math.floor(Date.now() / 1000)
 
-    await System.Init();
+    const secret_key : Uint8Array = hexToBytes(sk)
 
-    await System.ConnectToRelay(relay, {read: true, write: true});
+    const signedEvent : VerifiedEvent = finalizeEvent(event, secret_key)
 
-    const eb: EventBuilder = new EventBuilder()
-        .pubKey(event.pubkey)
-        .createdAt(event.created_at)
-        .kind(event.kind)
-        .content(event.content)
+    if (relay == undefined || !verifyEvent(event)) {
+        return response.status(500).json({error: 'error'})
+    }
 
-    event.tags.forEach((tag: string[]) => eb.tag(tag))
+    const relay_server : Relay = await Relay.connect(relay)
 
-    const signedEvent : NostrEvent = await eb.buildAndSign(sk)
+    await relay_server.publish(signedEvent)
 
-    await System.BroadcastEvent(signedEvent)
+    relay_server.close()
 
     return response.status(200).json({
         message: `ok`,
