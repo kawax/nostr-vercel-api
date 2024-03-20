@@ -22,7 +22,7 @@ export default async function handler(request: VercelRequest, response: VercelRe
 
     await signedEvent.sign()
 
-    console.log(signedEvent)
+    console.log(signedEvent.toNostrEvent())
 
     await signedEvent.publish(relaySet);
 
