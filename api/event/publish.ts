@@ -1,4 +1,4 @@
-import NDK, {NDKPrivateKeySigner, NDKEvent, NDKRelay,NDKRelaySet, NostrEvent} from "@nostr-dev-kit/ndk";
+import NDK, {NDKPrivateKeySigner, NDKEvent, NDKRelay, NDKRelaySet, NostrEvent} from "@nostr-dev-kit/ndk";
 
 import type {VercelRequest, VercelResponse} from '@vercel/node';
 
@@ -16,11 +16,13 @@ export default async function handler(request: VercelRequest, response: VercelRe
 
     await ndk.connect();
 
-    const relaySet :NDKRelaySet = new NDKRelaySet(new Set([new NDKRelay(relay)]), ndk)
+    const relaySet: NDKRelaySet = new NDKRelaySet(new Set([new NDKRelay(relay)]), ndk)
 
     const signedEvent: NDKEvent = new NDKEvent(ndk, event)
 
     await signedEvent.publish(relaySet);
+
+    console.log(signedEvent)
 
     return response.status(200).json({
         message: `ok`,
