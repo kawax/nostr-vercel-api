@@ -11,6 +11,8 @@ export default async function handler(request: VercelRequest, response: VercelRe
         explicitRelayUrls: [relay],
     });
 
+    await ndk.connect();
+
     const events : Set<NDKEvent> = await ndk.fetchEvents(filter);
 
     console.log(events)

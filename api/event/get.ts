@@ -9,6 +9,8 @@ export default async function handler(request: VercelRequest, response: VercelRe
         explicitRelayUrls: [relay],
     });
 
+    await ndk.connect();
+
     const event : NDKEvent | null = await ndk.fetchEvent(filter);
 
     return response.status(200).json({

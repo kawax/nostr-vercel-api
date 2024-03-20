@@ -12,6 +12,8 @@ export default async function handler(request: VercelRequest, response: VercelRe
         signer: signer
     });
 
+    await ndk.connect();
+
     const signedEvent: NDKEvent = new NDKEvent(ndk, event)
 
     await signedEvent.publish();
