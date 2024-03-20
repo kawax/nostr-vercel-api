@@ -5,6 +5,8 @@ import type {VercelRequest, VercelResponse} from '@vercel/node';
 export default async function handler(request: VercelRequest, response: VercelResponse) {
     const {event, sk, relay}: { event: NostrEvent, sk: string, relay: string } = request.body
 
+    console.log(event, relay)
+
     const signer: NDKPrivateKeySigner = new NDKPrivateKeySigner(sk)
 
     const ndk: NDK = new NDK({
