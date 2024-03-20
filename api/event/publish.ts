@@ -1,4 +1,4 @@
-import {NostrSystem, EventBuilder, NotSignedNostrEvent, NostrEvent, OkResponse} from "@snort/system";
+import {NostrSystem, EventBuilder, NotSignedNostrEvent, NostrEvent} from "@snort/system";
 
 import type {VercelRequest, VercelResponse} from '@vercel/node';
 
