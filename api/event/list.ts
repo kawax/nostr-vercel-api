@@ -1,16 +1,17 @@
-import { SimplePool } from 'nostr-tools'
+import NDK, {NDKEvent, NDKFilter} from "@nostr-dev-kit/ndk";
 
 import type {VercelRequest, VercelResponse} from '@vercel/node';
-import type {Event, Filter} from 'nostr-tools'
 
 export default async function handler(request: VercelRequest, response: VercelResponse) {
-    const {filter, relay}: { filter: Filter, relay: string } = request.body
+    const {filter, relay}: { filter: NDKFilter, relay: string } = request.body
 
     console.log(filter, relay)
 
-    const pool : SimplePool = new SimplePool()
+    const ndk : NDK = new NDK({
+        explicitRelayUrls: [relay],
+    });
 
-    const events: Event[] = await pool.querySync([relay], filter)
+    const events : Set<NDKEvent> = await ndk.fetchEvents(filter);
 
     console.log(events)
 

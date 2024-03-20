@@ -1,37 +1,20 @@
-import {
-    finalizeEvent,
-    verifyEvent,
-    Relay,
-    useWebSocketImplementation,
-} from 'nostr-tools'
-
-import { hexToBytes } from '@noble/hashes/utils'
-
-import { WebSocket } from 'ws'
+import NDK, {NDKPrivateKeySigner, NDKEvent, NDKFilter, NostrEvent} from "@nostr-dev-kit/ndk";
 
 import type {VercelRequest, VercelResponse} from '@vercel/node';
-import type {Event, VerifiedEvent} from 'nostr-tools'
 
 export default async function handler(request: VercelRequest, response: VercelResponse) {
-    const {event, sk, relay}: { event: Event, sk: string, relay: string } = request.body
+    const {event, sk, relay}: { event: NostrEvent, sk: string, relay: string } = request.body
 
-    useWebSocketImplementation(WebSocket)
+    const signer: NDKPrivateKeySigner = new NDKPrivateKeySigner(sk)
 
-    event.created_at = event.created_at ?? Math.floor(Date.now() / 1000)
+    const ndk: NDK = new NDK({
+        explicitRelayUrls: [relay],
+        signer: signer
+    });
 
-    const secret_key : Uint8Array = hexToBytes(sk)
+    const signedEvent: NDKEvent = new NDKEvent(ndk, event)
 
-    const signedEvent : VerifiedEvent = finalizeEvent(event, secret_key)
-
-    if (relay == undefined || !verifyEvent(event)) {
-        return response.status(500).json({error: 'error'})
-    }
-
-    const relay_server : Relay = await Relay.connect(relay)
-
-    await relay_server.publish(signedEvent)
-
-    relay_server.close()
+    await signedEvent.publish();
 
     return response.status(200).json({
         message: `ok`,
