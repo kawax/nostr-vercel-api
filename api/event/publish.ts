@@ -1,31 +1,32 @@
-import NDK, {NDKPrivateKeySigner, NDKEvent, NDKRelay, NDKRelaySet, NostrEvent} from "@nostr-dev-kit/ndk";
+import {NostrSystem, EventBuilder, NotSignedNostrEvent, NostrEvent, OkResponse} from "@snort/system";
 
 import type {VercelRequest, VercelResponse} from '@vercel/node';
 
 export default async function handler(request: VercelRequest, response: VercelResponse) {
-    const {event, sk, relay}: { event: NostrEvent, sk: string, relay: string } = request.body
+    const {event, sk, relay}: { event: NotSignedNostrEvent, sk: string, relay: string } = request.body
 
     console.log(event, relay)
 
-    const signer: NDKPrivateKeySigner = new NDKPrivateKeySigner(sk)
+    const System: NostrSystem = new NostrSystem({});
 
-    const ndk: NDK = new NDK({
-        explicitRelayUrls: [relay],
-        signer: signer
-    });
+    await System.Init();
 
-    await ndk.connect();
+    await System.ConnectToRelay(relay, {read: true, write: true});
 
-    const relaySet: NDKRelaySet = new NDKRelaySet(new Set([new NDKRelay(relay)]), ndk)
+    const eb: EventBuilder = new EventBuilder()
+        .pubKey(event.pubkey)
+        .createdAt(event.created_at)
+        .kind(event.kind)
+        .content(event.content)
 
-    const signedEvent: NDKEvent = new NDKEvent(ndk, event)
+    event.tags.forEach((tag: string[]) => eb.tag(tag))
 
-    const relays: Set<NDKRelay> = await signedEvent.publish(relaySet);
+    const signedEvent : NostrEvent = await eb.buildAndSign(sk)
 
-    console.log(relays)
+    await System.BroadcastEvent(signedEvent)
 
     return response.status(200).json({
         message: `ok`,
-        event: await signedEvent.toNostrEvent(),
+        event: signedEvent,
     })
 }
