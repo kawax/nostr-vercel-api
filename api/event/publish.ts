@@ -20,6 +20,8 @@ export default async function handler(request: VercelRequest, response: VercelRe
 
     const signedEvent: NDKEvent = new NDKEvent(ndk, event)
 
+    await signedEvent.sign()
+
     console.log(signedEvent)
 
     await signedEvent.publish(relaySet);
