@@ -4,13 +4,13 @@ import type {VercelRequest, VercelResponse} from '@vercel/node';
 import type {Event, Filter} from 'nostr-tools'
 
 export default async function handler(request: VercelRequest, response: VercelResponse) {
-    const {filter, id, relay}: { filter: Filter, id: string, relay: string } = request.body
+    const {filter, relay}: { filter: Filter, relay: string } = request.body
 
-    console.log(filter, id, relay)
+    console.log(filter, relay)
 
     const pool : SimplePool = new SimplePool()
 
-    const events: Event[] = await pool.querySync([relay], filter, {id: id})
+    const events: Event[] = await pool.querySync([relay], filter)
 
     return response.status(200).json({
         events: events,
