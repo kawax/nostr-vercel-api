@@ -11,6 +11,7 @@ vi.mock('nostr-tools', () => ({
         connect: vi.fn(),
         publish: vi.fn(),
     },
+    useWebSocketImplementation: vi.fn(),
 }));
 
 test('event/publish', () => {

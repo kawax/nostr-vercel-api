@@ -1,7 +1,5 @@
 import { SimplePool } from 'nostr-tools'
 
-import 'websocket-polyfill'
-
 import type {VercelRequest, VercelResponse} from '@vercel/node';
 import type {Event, Filter} from 'nostr-tools'
 

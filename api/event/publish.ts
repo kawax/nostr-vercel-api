@@ -2,11 +2,12 @@ import {
     finalizeEvent,
     verifyEvent,
     Relay,
+    useWebSocketImplementation,
 } from 'nostr-tools'
 
 import { hexToBytes } from '@noble/hashes/utils'
 
-import 'websocket-polyfill'
+useWebSocketImplementation(require('ws'))
 
 import type {VercelRequest, VercelResponse} from '@vercel/node';
 import type {Event, VerifiedEvent} from 'nostr-tools'
