@@ -29,7 +29,7 @@
     "@types/ws": "^8.5.10",
     "@vercel/node": "^3.0.24",
     "@vitest/coverage-v8": "^1.2.1",
-    "vercel": "^33.6.1",
+    "vercel": "^34.2.0",
     "vitest": "^1.2.1"
   }
 }
