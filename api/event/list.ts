@@ -1,10 +1,14 @@
 import {SimplePool} from 'nostr-tools'
+import {useWebSocketImplementation} from 'nostr-tools/pool'
+import {WebSocket} from "ws";
 
 import type {VercelRequest, VercelResponse} from '@vercel/node';
 import type {Event, Filter} from 'nostr-tools'
 
 export default async function handler(request: VercelRequest, response: VercelResponse) {
     const {filter, relay}: { filter: Filter, relay: string } = request.body
+
+    useWebSocketImplementation(WebSocket)
 
     console.log(filter, relay)
 

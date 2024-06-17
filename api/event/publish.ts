@@ -2,12 +2,10 @@ import {
     finalizeEvent,
     verifyEvent,
     Relay,
-    useWebSocketImplementation,
 } from 'nostr-tools'
-
-import { hexToBytes } from '@noble/hashes/utils'
-
-import { WebSocket } from "ws";
+import {useWebSocketImplementation} from 'nostr-tools/pool'
+import {WebSocket} from "ws";
+import {hexToBytes} from '@noble/hashes/utils'
 
 import type {VercelRequest, VercelResponse} from '@vercel/node';
 import type {Event, VerifiedEvent} from 'nostr-tools'
@@ -19,15 +17,15 @@ export default async function handler(request: VercelRequest, response: VercelRe
 
     event.created_at = event.created_at ?? Math.floor(Date.now() / 1000)
 
-    const secret_key : Uint8Array = hexToBytes(sk)
+    const secret_key: Uint8Array = hexToBytes(sk)
 
-    const signedEvent : VerifiedEvent = finalizeEvent(event, secret_key)
+    const signedEvent: VerifiedEvent = finalizeEvent(event, secret_key)
 
     if (relay == undefined || !verifyEvent(event)) {
         return response.status(500).json({error: 'error'})
     }
 
-    const relay_server : Relay = await Relay.connect(relay)
+    const relay_server: Relay = await Relay.connect(relay)
 
     await relay_server.publish(signedEvent)
 

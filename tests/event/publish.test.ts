@@ -10,8 +10,7 @@ vi.mock('nostr-tools', () => ({
     Relay: {
         connect: vi.fn(),
         publish: vi.fn(),
-    },
-    useWebSocketImplementation: vi.fn()
+    }
 }));
 
 test('event/publish', () => {
