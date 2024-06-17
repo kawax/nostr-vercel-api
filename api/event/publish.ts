@@ -3,7 +3,7 @@ import {
     verifyEvent,
     Relay,
 } from 'nostr-tools'
-import {useWebSocketImplementation} from 'nostr-tools/pool'
+import {useWebSocketImplementation} from 'nostr-tools/relay'
 import {WebSocket} from "ws";
 import {hexToBytes} from '@noble/hashes/utils'
 
