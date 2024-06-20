@@ -3,19 +3,19 @@ import {expect, test} from 'vitest'
 import verify from '../../api/event/verify'
 
 import {
-    finalizeEvent,
-    generateSecretKey
+    finishEvent,
+    generatePrivateKey
 } from 'nostr-tools'
 
 test('event/verify', () => {
-    const event = finalizeEvent(
+    const event = finishEvent(
         {
             kind: 1,
             tags: [],
             content: 'test',
             created_at: 0,
         },
-        generateSecretKey(),
+        generatePrivateKey(),
     )
 
     const req = {

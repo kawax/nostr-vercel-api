@@ -2,7 +2,7 @@ import {expect, test} from 'vitest'
 
 import hash from '../../api/event/hash'
 
-vi.mock('nostr-tools/pure', () => ({
+vi.mock('nostr-tools', () => ({
     getEventHash: vi.fn()
 }));
 
