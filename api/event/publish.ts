@@ -7,7 +7,6 @@ import {WebSocket} from 'ws'
 import {useWebSocketImplementation} from 'nostr-tools/relay'
 
 (global as any).WebSocket = WebSocket
-useWebSocketImplementation(WebSocket)
 
 import {hexToBytes} from '@noble/hashes/utils'
 
