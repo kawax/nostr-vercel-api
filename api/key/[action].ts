@@ -1,7 +1,7 @@
 import {
     nip19,
     getPublicKey,
-    generatePrivateKey
+    generateSecretKey
 } from 'nostr-tools'
 
 import { bytesToHex, hexToBytes } from '@noble/hashes/utils'
@@ -28,14 +28,14 @@ export default function handler(request: VercelRequest, response: VercelResponse
 }
 
 function generate(request: VercelRequest, response: VercelResponse): VercelResponse {
-    const sk : string = generatePrivateKey()
+    const sk : Uint8Array = generateSecretKey()
     const nsec = nip19.nsecEncode(sk)
 
     const pk : string = getPublicKey(sk)
     const npub = nip19.npubEncode(pk)
 
     return response.status(200).json({
-        sk: sk,
+        sk: bytesToHex(sk),
         nsec: nsec,
         pk: pk,
         npub: npub,
@@ -45,8 +45,8 @@ function generate(request: VercelRequest, response: VercelResponse): VercelRespo
 function from_sk(request: VercelRequest, response: VercelResponse): VercelResponse {
     const {sk}: { sk?: string } = request.query
 
-    const nsec = nip19.nsecEncode(sk ?? '')
-    const pk = getPublicKey(sk ?? '')
+    const nsec = nip19.nsecEncode(hexToBytes(sk ?? ''))
+    const pk = getPublicKey(hexToBytes(sk ?? ''))
     const npub = nip19.npubEncode(pk)
 
     return response.status(200).json({
@@ -62,7 +62,7 @@ function from_nsec(request: VercelRequest, response: VercelResponse): VercelResp
 
     const {type, data} = nip19.decode(nsec ?? '');
 
-    if (type !== 'nsec' || data === undefined) {
+    if (type !== 'nsec' || data === undefined || !(data instanceof Uint8Array)) {
         return response.status(500).json({error: 'type error'})
     }
 
@@ -70,7 +70,7 @@ function from_nsec(request: VercelRequest, response: VercelResponse): VercelResp
     const npub = nip19.npubEncode(pk)
 
     return response.status(200).json({
-        sk: data,
+        sk: bytesToHex(data),
         nsec: nsec,
         pk: pk,
         npub: npub,
