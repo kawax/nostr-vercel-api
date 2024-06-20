@@ -5,6 +5,10 @@ import {
 } from 'nostr-tools'
 import {WebSocket} from 'ws'
 import {useWebSocketImplementation} from 'nostr-tools/relay'
+
+(global as any).WebSocket = WebSocket
+useWebSocketImplementation(WebSocket)
+
 import {hexToBytes} from '@noble/hashes/utils'
 
 import type {VercelRequest, VercelResponse} from '@vercel/node';
@@ -12,8 +16,6 @@ import type {Event, VerifiedEvent} from 'nostr-tools'
 
 export default async function handler(request: VercelRequest, response: VercelResponse) {
     const {event, sk, relay}: { event: Event, sk: string, relay: string } = request.body
-
-    useWebSocketImplementation(WebSocket)
 
     event.created_at = event.created_at ?? Math.floor(Date.now() / 1000)
 
