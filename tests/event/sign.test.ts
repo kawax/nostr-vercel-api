@@ -2,7 +2,7 @@ import {expect, test} from 'vitest'
 
 import {
     getPublicKey,
-    generateSecretKey
+    generatePrivateKey
 } from 'nostr-tools'
 
 import { bytesToHex } from '@noble/hashes/utils'
@@ -14,12 +14,12 @@ test('event/sign', () => {
         body: {
             event: {
                 kind: 1,
-                pubkey: getPublicKey(generateSecretKey()),
+                pubkey: getPublicKey(generatePrivateKey()),
                 created_at: 0,
                 content: 'test',
                 tags: [],
             },
-            sk: bytesToHex(generateSecretKey()),
+            sk: generatePrivateKey(),
         }
     }
 

@@ -1,5 +1,4 @@
 import {nip19} from 'nostr-tools'
-import { bytesToHex, hexToBytes } from '@noble/hashes/utils'
 
 import type {VercelRequest, VercelResponse} from '@vercel/node'
 
@@ -37,14 +36,14 @@ function decode(request: VercelRequest, response: VercelResponse): VercelRespons
 
     return response.status(200).json({
         type: type,
-        data: data instanceof Uint8Array ? bytesToHex(data) : data,
+        data: data,
     })
 }
 
 function nsecEncode(request: VercelRequest, response: VercelResponse): VercelResponse {
     const {sk}: { sk: string } = request.body
 
-    const nsec = nip19.nsecEncode(hexToBytes(sk));
+    const nsec = nip19.nsecEncode(sk);
 
     return response.status(200).json({
         nsec: nsec,
