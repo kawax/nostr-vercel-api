@@ -6,7 +6,7 @@ vi.spyOn(console, 'log')
 
 vi.mock('nostr-tools', () => {
     const SimplePool = vi.fn()
-    SimplePool.prototype.list = vi.fn()
+    SimplePool.prototype.querySync = vi.fn()
 
     return { SimplePool }
 });
