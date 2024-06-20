@@ -18,11 +18,12 @@ export default async function handler(request: VercelRequest, response: VercelRe
 
     const signedEvent: VerifiedEvent = finishEvent(event, sk)
 
-    if (relay == undefined || !verifySignature(event)) {
+    if (relay == undefined || !verifySignature(signedEvent)) {
         return response.status(500).json({error: 'error'})
     }
 
     const relay_server: Relay = relayInit(relay)
+    relay_server.connect()
 
     await relay_server.publish(signedEvent)
 
