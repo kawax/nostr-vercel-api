@@ -4,7 +4,6 @@ import {
     verifySignature,
     Relay,
 } from 'nostr-tools'
-import 'websocket-polyfill'
 
 import type {VercelRequest, VercelResponse} from '@vercel/node';
 import type {Event, VerifiedEvent} from 'nostr-tools'
