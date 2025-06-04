@@ -1,8 +1,8 @@
 Nostr API for Server side
 ====
 
-[![Test Coverage](https://api.codeclimate.com/v1/badges/7f679a1c8f0c17ef9899/test_coverage)](https://codeclimate.com/github/kawax/nostr-vercel-api/test_coverage)
-[![Maintainability](https://api.codeclimate.com/v1/badges/7f679a1c8f0c17ef9899/maintainability)](https://codeclimate.com/github/kawax/nostr-vercel-api/maintainability)
+[![Code Coverage](https://qlty.sh/badges/a7e2a0a8-e78a-4340-a362-280ef071af9c/test_coverage.svg)](https://qlty.sh/gh/kawax/projects/nostr-vercel-api)
+[![Maintainability](https://qlty.sh/badges/a7e2a0a8-e78a-4340-a362-280ef071af9c/maintainability.svg)](https://qlty.sh/gh/kawax/projects/nostr-vercel-api)
 
 **Work in progress**
 
