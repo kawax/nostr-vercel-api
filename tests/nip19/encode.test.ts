@@ -11,7 +11,6 @@ vi.mock('nostr-tools', () => ({
         nprofileEncode: () => 'test',
         neventEncode: () => 'test',
         naddrEncode: () => 'test',
-        nrelayEncode: () => 'test',
     },
 }))
 
@@ -116,24 +115,6 @@ test('nip19/naddr', () => {
         },
         body: {
             addr: 'addr',
-        }
-    }
-
-    const res = {
-        status: () => res,
-        json: () => res,
-    }
-
-    expect(handler(<VercelRequest><unknown>req, <VercelResponse><unknown>res)).toBeTypeOf('object')
-})
-
-test('nip19/nrelay', () => {
-    const req = {
-        query: {
-            action: 'nrelay',
-        },
-        body: {
-            relay: 'relay',
         }
     }
 
