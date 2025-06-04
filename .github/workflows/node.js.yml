@@ -9,6 +9,10 @@ on:
   pull_request:
     branches: [ "main" ]
 
+permissions:
+  id-token: write
+  contents: read
+
 jobs:
   build:
 
@@ -27,10 +31,11 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - run: npm ci
-    - name: Test & publish code coverage
-      uses: paambaati/codeclimate-action@v9
-      env:
-        CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+    - name: Test
+      run: npm run coverage
+    - name: Code Coverage
+      uses: qltysh/qlty-action/coverage@v1
       with:
-        coverageCommand: npm run coverage
-        verifyDownload: false
+        oidc: true
+        files: coverage/clover.xml
+
