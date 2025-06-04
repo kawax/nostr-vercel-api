@@ -292,7 +292,7 @@ $decrypt = Http::baseUrl('https://nostr-api.vercel.app/api/')
 ```
 
 ### see also Laravel package
-https://github.com/kawax/laravel-nostr
+https://github.com/invokable/laravel-nostr
 
 ## LICENCE
 MIT
