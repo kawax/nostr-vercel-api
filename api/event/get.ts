@@ -6,10 +6,12 @@ import {WebSocket} from 'ws'
 import type {VercelRequest, VercelResponse} from '@vercel/node';
 import type {Event, Filter} from 'nostr-tools'
 
+const createPool = () => new SimplePool()
+
 export default async function handler(request: VercelRequest, response: VercelResponse) {
     const {filter, relay}: { filter: Filter, relay: string } = request.body
 
-    const pool: SimplePool = new SimplePool()
+    const pool: SimplePool = createPool()
 
     const event: Event | null = await pool.get([relay], filter)
 
