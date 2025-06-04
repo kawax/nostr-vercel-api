@@ -23,8 +23,7 @@ export default async function handler(request: VercelRequest, response: VercelRe
             return neventEncode(request, response)
         case 'naddr':
             return naddrEncode(request, response)
-        case 'nrelay':
-            return nrelayEncode(request, response)
+
         default:
             return response.status(404).json({error: 'Not Found'})
     }
@@ -33,12 +32,16 @@ export default async function handler(request: VercelRequest, response: VercelRe
 function decode(request: VercelRequest, response: VercelResponse): VercelResponse {
     const {n}: { n: string } = request.body
 
-    const {type, data} = nip19.decode(n);
+    try {
+        const {type, data} = nip19.decode(n);
 
-    return response.status(200).json({
-        type: type,
-        data: data instanceof Uint8Array ? bytesToHex(data) : data,
-    })
+        return response.status(200).json({
+            type: type,
+            data: data instanceof Uint8Array ? bytesToHex(data) : data,
+        })
+    } catch (error) {
+        return response.status(500).json({error: 'error'})
+    }
 }
 
 function nsecEncode(request: VercelRequest, response: VercelResponse): VercelResponse {
@@ -98,15 +101,5 @@ function naddrEncode(request: VercelRequest, response: VercelResponse): VercelRe
 
     return response.status(200).json({
         naddr: naddr,
-    })
-}
-
-function nrelayEncode(request: VercelRequest, response: VercelResponse): VercelResponse {
-    const {relay}: { relay: string } = request.body
-
-    const nrelay: string = nip19.nrelayEncode(relay);
-
-    return response.status(200).json({
-        nrelay: nrelay,
     })
 }

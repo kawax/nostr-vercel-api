@@ -34,9 +34,13 @@ async function encrypt(request: VercelRequest, response: VercelResponse): Promis
 async function decrypt(request: VercelRequest, response: VercelResponse): Promise<VercelResponse> {
     const {sk, pk, content}: { sk: string, pk: string, content: string } = request.body
 
-    const decrypt: string = await nip04.decrypt(sk, pk, content);
+    try {
+        const decrypt: string = await nip04.decrypt(sk, pk, content);
 
-    return response.status(200).json({
-        decrypt: decrypt,
-    })
+        return response.status(200).json({
+            decrypt: decrypt,
+        })
+    } catch (error) {
+        return response.status(404).json({error: 'Not Found'})
+    }
 }
