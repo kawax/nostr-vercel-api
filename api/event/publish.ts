@@ -15,8 +15,6 @@ import type {Event, VerifiedEvent} from 'nostr-tools'
 export default async function handler(request: VercelRequest, response: VercelResponse) {
     const {event, sk, relay}: { event: Event, sk: string, relay: string } = request.body
 
-    console.log(relay)
-
     event.created_at = event.created_at ?? Math.floor(Date.now() / 1000)
 
     const secret_key: Uint8Array = hexToBytes(sk)
