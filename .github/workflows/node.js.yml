@@ -33,3 +33,4 @@ jobs:
         CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
       with:
         coverageCommand: npm run coverage
+        verifyDownload: false
