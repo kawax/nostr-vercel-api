@@ -4,6 +4,8 @@ Nostr API for Server side
 [![Code Coverage](https://qlty.sh/badges/a7e2a0a8-e78a-4340-a362-280ef071af9c/test_coverage.svg)](https://qlty.sh/gh/kawax/projects/nostr-vercel-api)
 [![Maintainability](https://qlty.sh/badges/a7e2a0a8-e78a-4340-a362-280ef071af9c/maintainability.svg)](https://qlty.sh/gh/kawax/projects/nostr-vercel-api)
 
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/kawax/nostr-vercel-api)
+
 **Work in progress**
 
 WebAPI for using Nostr from server-side languages that are difficult to Schnorr signature.  
