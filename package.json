@@ -35,7 +35,7 @@
     "@vercel/node": "^5.2",
     "@vitest/coverage-v8": "^3.2.1",
     "eslint": "^9.29.0",
-    "vercel": "^42.3.0",
+    "vercel": "^43.3.0",
     "vitest": "^3.2.1"
   },
   "overrides": {
