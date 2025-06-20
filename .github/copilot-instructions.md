@@ -265,6 +265,58 @@ npm run lint:fix         # Fix linting issues
 - **Vitest:** Global test functions, mocking enabled
 - **Vercel:** Single region deployment (hnd1)
 
+## Manual Operation Check
+
+**Note:** This section describes manual verification procedures for Copilot operation only, not for automated testing. These procedures use the real deployed API endpoints to verify functionality.
+
+### Basic Operation Verification
+
+During development or debugging, you can manually verify API functionality using the following steps:
+
+#### 1. Generate a Key Pair
+Send a GET request to generate a new key pair:
+```
+GET https://nostr-api.vercel.app/api/key/generate
+```
+
+This returns a JSON response containing:
+```json
+{
+  "sk": "secret_key_in_hex_format",
+  "nsec": "nsec1...",
+  "pk": "public_key_in_hex_format", 
+  "npub": "npub1..."
+}
+```
+
+#### 2. Publish a Profile Update Event
+Use the `sk` (secret key) from step 1 to publish a test profile update:
+
+```
+POST https://nostr-api.vercel.app/api/event/publish
+Content-Type: application/json
+
+{
+  "event": {
+    "kind": 0,
+    "content": "{\"name\": \"test\"}",
+    "created_at": 1700000000,
+    "tags": []
+  },
+  "sk": "secret_key_from_step_1",
+  "relay": "wss://relay.damus.io"
+}
+```
+
+**Important Notes:**
+- Replace `secret_key_from_step_1` with the actual `sk` value from step 1
+- The `content` field should be a JSON string (note the escaped quotes)
+- A relay URL is required for publishing events
+- The `created_at` timestamp can be current Unix timestamp or omitted (will auto-populate)
+- This creates a profile metadata event (kind 0) with a test name
+
+This manual check verifies both key generation and event publishing functionality using the real API endpoints.
+
 ## Common Patterns for New Endpoints
 
 ### Adding a New Dynamic Route Action
