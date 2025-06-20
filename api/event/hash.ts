@@ -10,6 +10,6 @@ export default async function handler (request: VercelRequest, response: VercelR
     const hash = getEventHash(event)
 
     return response.status(200).json({
-        hash: hash,
+        hash,
     })
 }

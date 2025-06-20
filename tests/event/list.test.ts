@@ -1,5 +1,5 @@
 import { expect, test, describe, vi, beforeEach } from 'vitest'
-import type { VercelRequest, VercelResponse } from "@vercel/node"
+import type { VercelRequest, VercelResponse } from '@vercel/node'
 import { SimplePool } from 'nostr-tools'
 
 vi.mock('nostr-tools', () => ({
@@ -23,18 +23,18 @@ function createMockRequest(body: any): VercelRequest {
 function createMockResponse() {
   let statusCode = 200
   let jsonData: any = null
-  
+
   const res = <VercelResponse><unknown>{
-    status: function(code: number) {
+    status(code: number) {
       statusCode = code
       return res
     },
-    json: function(data: any) {
+    json(data: any) {
       jsonData = data
       return res
     }
   }
-  
+
   return { res, getStatusCode: () => statusCode, getJsonData: () => jsonData }
 }
 
@@ -61,7 +61,7 @@ describe('event/list', () => {
   ]
 
   const mockQuerySync = vi.fn()
-  
+
   beforeEach(() => {
     vi.clearAllMocks()
     mockQuerySync.mockResolvedValue(mockEvents)
@@ -76,9 +76,9 @@ describe('event/list', () => {
       relay: 'wss://relay.example.com'
     })
     const { res, getStatusCode, getJsonData } = createMockResponse()
-    
+
     await list(req, res)
-    
+
     expect(getStatusCode()).toBe(200)
     expect(getJsonData()).toHaveProperty('events')
     expect(getJsonData().events).toEqual(mockEvents)
@@ -87,15 +87,15 @@ describe('event/list', () => {
 
   test('should return empty array when no events found', async () => {
     mockQuerySync.mockResolvedValueOnce([])
-    
+
     const req = createMockRequest({
       filter: { kinds: [999] },
       relay: 'wss://relay.example.com'
     })
     const { res, getStatusCode, getJsonData } = createMockResponse()
-    
+
     await list(req, res)
-    
+
     expect(getStatusCode()).toBe(200)
     expect(getJsonData()).toHaveProperty('events')
     expect(getJsonData().events).toEqual([])
@@ -104,16 +104,16 @@ describe('event/list', () => {
 
   test('should handle filter with author criteria', async () => {
     const req = createMockRequest({
-      filter: { 
+      filter: {
         authors: ['test-pubkey-1'],
         limit: 10
       },
       relay: 'wss://relay.example.com'
     })
     const { res, getStatusCode, getJsonData } = createMockResponse()
-    
+
     await list(req, res)
-    
+
     expect(getStatusCode()).toBe(200)
     expect(getJsonData()).toHaveProperty('events')
     expect(Array.isArray(getJsonData().events)).toBe(true)
@@ -121,7 +121,7 @@ describe('event/list', () => {
 
   test('should handle filter with time range', async () => {
     const req = createMockRequest({
-      filter: { 
+      filter: {
         since: 1234567890,
         until: 1234567900,
         kinds: [1]
@@ -129,9 +129,9 @@ describe('event/list', () => {
       relay: 'wss://relay.example.com'
     })
     const { res, getStatusCode, getJsonData } = createMockResponse()
-    
+
     await list(req, res)
-    
+
     expect(getStatusCode()).toBe(200)
     expect(getJsonData()).toHaveProperty('events')
   })

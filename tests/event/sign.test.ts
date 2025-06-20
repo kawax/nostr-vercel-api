@@ -1,5 +1,5 @@
 import { expect, test, describe, vi, beforeEach } from 'vitest'
-import type { VercelRequest, VercelResponse } from "@vercel/node"
+import type { VercelRequest, VercelResponse } from '@vercel/node'
 import { getEventHash } from 'nostr-tools'
 import { schnorr } from '@noble/curves/secp256k1'
 import { bytesToHex, hexToBytes } from '@noble/hashes/utils'
@@ -35,18 +35,18 @@ function createMockRequest(body: any): VercelRequest {
 function createMockResponse() {
   let statusCode = 200
   let jsonData: any = null
-  
+
   const res = <VercelResponse><unknown>{
-    status: function(code: number) {
+    status(code: number) {
       statusCode = code
       return res
     },
-    json: function(data: any) {
+    json(data: any) {
       jsonData = data
       return res
     }
   }
-  
+
   return { res, getStatusCode: () => statusCode, getJsonData: () => jsonData }
 }
 
@@ -69,15 +69,15 @@ describe('event/sign', () => {
       created_at: 1234567890,
       sig: 'test-signature'
     }
-    
+
     const req = createMockRequest({
       event: mockEvent,
       sk: '0101010101010101010101010101010101010101010101010101010101010101'
     })
     const { res, getStatusCode, getJsonData } = createMockResponse()
-    
+
     sign(req, res)
-    
+
     expect(getStatusCode()).toBe(200)
     expect(getJsonData()).toHaveProperty('sign')
     expect(getJsonData().sign).toBe('0101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101')
@@ -93,13 +93,13 @@ describe('event/sign', () => {
       created_at: 1234567890,
       sig: 'test-signature'
     }
-    
-    const req = createMockRequest({ 
+
+    const req = createMockRequest({
       event: mockEvent,
       sk: '0101010101010101010101010101010101010101010101010101010101010101'
     })
     const { res } = createMockResponse()
-    
+
     const result = await sign(req, res)
     expect(result).toBeTypeOf('object')
   })
@@ -114,15 +114,15 @@ describe('event/sign', () => {
       created_at: 1234567890,
       sig: 'test-signature'
     }
-    
+
     const req = createMockRequest({
       event: mockEvent,
       sk: 'abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789'
     })
     const { res, getStatusCode, getJsonData } = createMockResponse()
-    
+
     sign(req, res)
-    
+
     expect(getStatusCode()).toBe(200)
     expect(getJsonData()).toHaveProperty('sign')
     expect(typeof getJsonData().sign).toBe('string')

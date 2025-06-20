@@ -1,5 +1,5 @@
 import { expect, test, describe, vi, beforeEach } from 'vitest'
-import type { VercelRequest, VercelResponse } from "@vercel/node"
+import type { VercelRequest, VercelResponse } from '@vercel/node'
 import { nip04 } from 'nostr-tools'
 
 vi.mock('nostr-tools', () => ({
@@ -28,18 +28,18 @@ function createMockRequest(query: Record<string, string> = {}, body: any = {}): 
 function createMockResponse() {
   let statusCode = 200
   let jsonData: any = null
-  
+
   const res = <VercelResponse><unknown>{
-    status: function(code: number) {
+    status(code: number) {
       statusCode = code
       return res
     },
-    json: function(data: any) {
+    json(data: any) {
       jsonData = data
       return res
     }
   }
-  
+
   return { res, getStatusCode: () => statusCode, getJsonData: () => jsonData }
 }
 
@@ -60,9 +60,9 @@ describe('nip04/encrypt', () => {
       }
     )
     const { res, getStatusCode, getJsonData } = createMockResponse()
-    
+
     await nip04Handler(req, res)
-    
+
     expect(getStatusCode()).toBe(200)
     expect(getJsonData()).toHaveProperty('encrypt')
     expect(getJsonData().encrypt).toBe('encrypted-content-base64')
@@ -78,9 +78,9 @@ describe('nip04/encrypt', () => {
       }
     )
     const { res, getStatusCode, getJsonData } = createMockResponse()
-    
+
     await nip04Handler(req, res)
-    
+
     expect(getStatusCode()).toBe(200)
     expect(getJsonData()).toHaveProperty('encrypt')
   })
@@ -103,9 +103,9 @@ describe('nip04/decrypt', () => {
       }
     )
     const { res, getStatusCode, getJsonData } = createMockResponse()
-    
+
     await nip04Handler(req, res)
-    
+
     expect(getStatusCode()).toBe(200)
     expect(getJsonData()).toHaveProperty('decrypt')
     expect(getJsonData().decrypt).toBe('decrypted-plain-text')
@@ -121,9 +121,9 @@ describe('nip04/decrypt', () => {
       }
     )
     const { res, getStatusCode, getJsonData } = createMockResponse()
-    
+
     await nip04Handler(req, res)
-    
+
     expect(getStatusCode()).toBe(200)
     expect(getJsonData()).toHaveProperty('decrypt')
   })
@@ -146,9 +146,9 @@ describe('nip04/error', () => {
       }
     )
     const { res, getStatusCode, getJsonData } = createMockResponse()
-    
+
     await nip04Handler(req, res)
-    
+
     expect(getStatusCode()).toBe(404)
     expect(getJsonData()).toHaveProperty('error', 'Not Found')
   })
@@ -163,16 +163,16 @@ describe('nip04/error', () => {
       }
     )
     const { res, getStatusCode, getJsonData } = createMockResponse()
-    
+
     await nip04Handler(req, res)
-    
+
     expect(getStatusCode()).toBe(404)
     expect(getJsonData()).toHaveProperty('error', 'Not Found')
   })
 
   test('should handle encryption errors gracefully', async () => {
     mockNip04Encrypt.mockRejectedValueOnce(new Error('Encryption failed'))
-    
+
     const req = createMockRequest(
       { action: 'encrypt' },
       {
@@ -182,13 +182,13 @@ describe('nip04/error', () => {
       }
     )
     const { res } = createMockResponse()
-    
+
     await expect(nip04Handler(req, res)).rejects.toThrow('Encryption failed')
   })
 
   test('should handle decryption errors gracefully', async () => {
     mockNip04Decrypt.mockRejectedValueOnce(new Error('Decryption failed'))
-    
+
     const req = createMockRequest(
       { action: 'decrypt' },
       {
@@ -198,7 +198,7 @@ describe('nip04/error', () => {
       }
     )
     const { res } = createMockResponse()
-    
+
     await expect(nip04Handler(req, res)).rejects.toThrow('Decryption failed')
   })
 })

@@ -1,6 +1,6 @@
 import { expect, test, describe, vi, beforeEach } from 'vitest'
 import key from '../../api/key/[action]'
-import type { VercelRequest, VercelResponse } from "@vercel/node";
+import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 vi.mock('nostr-tools', () => {
   return {
@@ -42,18 +42,18 @@ function createMockRequest(query: Record<string, string> = {}): VercelRequest {
 function createMockResponse() {
   let statusCode = 200;
   let jsonData: any = null;
-  
+
   const res = <VercelResponse><unknown>{
-    status: function(code: number) {
+    status(code: number) {
       statusCode = code;
       return res;
     },
-    json: function(data: any) {
+    json(data: any) {
       jsonData = data;
       return res;
     }
   };
-  
+
   return { res, getStatusCode: () => statusCode, getJsonData: () => jsonData };
 }
 
@@ -61,37 +61,37 @@ describe('key/[action].ts', () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
-  
+
   describe('generate', () => {
     test('should generate valid key formats', () => {
       const req = createMockRequest({ action: 'generate' });
       const { res, getStatusCode, getJsonData } = createMockResponse();
-      
+
       key(req, res);
-      
+
       expect(getStatusCode()).toBe(200);
       expect(getJsonData()).toHaveProperty('sk');
       expect(getJsonData()).toHaveProperty('nsec');
       expect(getJsonData()).toHaveProperty('pk');
       expect(getJsonData()).toHaveProperty('npub');
-      
+
       expect(getJsonData().sk).toBe('0101010101010101010101010101010101010101010101010101010101010101');
       expect(getJsonData().nsec).toBe('nsec1j4c6269y9w0q2er2xjw8sv2ehyrtfxq3jwgdlxj8d2v3r2z9qnqq9t3g96');
       expect(getJsonData().pk).toBe('1a1c0e2e64c2ba5a213b3f1e3b9a8e1d9c8c8e6d6a4c2e0a8c0e2e4c6a8e0a2c');
       expect(getJsonData().npub).toBe('npub1sg6plzptd64u62a878hep2kev88swjh3tw00gjsfl8f237lmu63q0uf63m');
     });
   });
-  
+
   describe('from_sk', () => {
     test('should derive keys from a valid secret key', () => {
-      const req = createMockRequest({ 
+      const req = createMockRequest({
         action: 'from_sk',
         sk: '0101010101010101010101010101010101010101010101010101010101010101'
       });
       const { res, getStatusCode, getJsonData } = createMockResponse();
-      
+
       key(req, res);
-      
+
       expect(getStatusCode()).toBe(200);
       expect(getJsonData()).toHaveProperty('sk');
       expect(getJsonData()).toHaveProperty('nsec');
@@ -99,17 +99,17 @@ describe('key/[action].ts', () => {
       expect(getJsonData()).toHaveProperty('npub');
     });
   });
-  
+
   describe('from_nsec', () => {
     test('should derive keys from a valid nsec', () => {
-      const req = createMockRequest({ 
+      const req = createMockRequest({
         action: 'from_nsec',
         nsec: 'nsec1j4c6269y9w0q2er2xjw8sv2ehyrtfxq3jwgdlxj8d2v3r2z9qnqq9t3g96'
       });
       const { res, getStatusCode, getJsonData } = createMockResponse();
-      
+
       key(req, res);
-      
+
       expect(getStatusCode()).toBe(200);
       expect(getJsonData()).toHaveProperty('sk');
       expect(getJsonData()).toHaveProperty('nsec');
@@ -117,57 +117,57 @@ describe('key/[action].ts', () => {
       expect(getJsonData()).toHaveProperty('npub');
     });
   });
-  
+
   describe('from_pk', () => {
     test('should derive npub from a valid public key', () => {
-      const req = createMockRequest({ 
+      const req = createMockRequest({
         action: 'from_pk',
         pk: '1a1c0e2e64c2ba5a213b3f1e3b9a8e1d9c8c8e6d6a4c2e0a8c0e2e4c6a8e0a2c'
       });
       const { res, getStatusCode, getJsonData } = createMockResponse();
-      
+
       key(req, res);
-      
+
       expect(getStatusCode()).toBe(200);
       expect(getJsonData()).toHaveProperty('pk');
       expect(getJsonData()).toHaveProperty('npub');
     });
   });
-  
+
   describe('from_npub', () => {
     test('should derive pk from a valid npub', () => {
-      const req = createMockRequest({ 
+      const req = createMockRequest({
         action: 'from_npub',
         npub: 'npub1sg6plzptd64u62a878hep2kev88swjh3tw00gjsfl8f237lmu63q0uf63m'
       });
       const { res, getStatusCode, getJsonData } = createMockResponse();
-      
+
       key(req, res);
-      
+
       expect(getStatusCode()).toBe(200);
       expect(getJsonData()).toHaveProperty('pk');
       expect(getJsonData()).toHaveProperty('npub');
     });
   });
-  
+
   describe('error handling', () => {
     test('should return 404 for invalid action', () => {
       const req = createMockRequest({ action: 'invalid_action' });
       const { res, getStatusCode, getJsonData } = createMockResponse();
-      
+
       key(req, res);
-      
+
       expect(getStatusCode()).toBe(404);
       expect(getJsonData()).toHaveProperty('error');
       expect(getJsonData().error).toBe('Not Found');
     });
-    
+
     test('should return 404 when no action is provided', () => {
       const req = createMockRequest({});
       const { res, getStatusCode, getJsonData } = createMockResponse();
-      
+
       key(req, res);
-      
+
       expect(getStatusCode()).toBe(404);
       expect(getJsonData()).toHaveProperty('error');
       expect(getJsonData().error).toBe('Not Found');

@@ -1,6 +1,6 @@
 import { expect, test, describe, vi, beforeEach } from 'vitest'
 import handler from '../../api/nip19/[action]'
-import type { VercelRequest, VercelResponse } from "@vercel/node"
+import type { VercelRequest, VercelResponse } from '@vercel/node'
 
 vi.mock('nostr-tools', () => ({
   nip19: {
@@ -29,18 +29,18 @@ function createMockRequest(query: Record<string, string> = {}, body: any = {}): 
 function createMockResponse() {
   let statusCode = 200;
   let jsonData: any = null;
-  
+
   const res = <VercelResponse><unknown>{
-    status: function(code: number) {
+    status(code: number) {
       statusCode = code;
       return res;
     },
-    json: function(data: any) {
+    json(data: any) {
       jsonData = data;
       return res;
     }
   };
-  
+
   return { res, getStatusCode: () => statusCode, getJsonData: () => jsonData };
 }
 
@@ -52,9 +52,9 @@ describe('nip19/decode', () => {
   test('should decode nsec successfully', async () => {
     const req = createMockRequest({ action: 'decode' }, { n: 'nsec1test' });
     const { res, getStatusCode, getJsonData } = createMockResponse();
-    
+
     await handler(req, res);
-    
+
     expect(getStatusCode()).toBe(200);
     expect(getJsonData()).toEqual({
       type: 'nsec',
@@ -65,9 +65,9 @@ describe('nip19/decode', () => {
   test('should decode npub successfully', async () => {
     const req = createMockRequest({ action: 'decode' }, { n: 'npub1test' });
     const { res, getStatusCode, getJsonData } = createMockResponse();
-    
+
     await handler(req, res);
-    
+
     expect(getStatusCode()).toBe(200);
     expect(getJsonData()).toEqual({
       type: 'nsec',
@@ -78,9 +78,9 @@ describe('nip19/decode', () => {
   test('should decode note successfully', async () => {
     const req = createMockRequest({ action: 'decode' }, { n: 'note1test' });
     const { res, getStatusCode, getJsonData } = createMockResponse();
-    
+
     await handler(req, res);
-    
+
     expect(getStatusCode()).toBe(200);
     expect(getJsonData()).toEqual({
       type: 'nsec',
@@ -97,9 +97,9 @@ describe('nip19/nsec', () => {
   test('should encode nsec successfully', async () => {
     const req = createMockRequest({ action: 'nsec' }, { sk: '01020304' });
     const { res, getStatusCode, getJsonData } = createMockResponse();
-    
+
     await handler(req, res);
-    
+
     expect(getStatusCode()).toBe(200);
     expect(getJsonData()).toEqual({
       nsec: 'nsec1encoded'
@@ -115,9 +115,9 @@ describe('nip19/npub', () => {
   test('should encode npub successfully', async () => {
     const req = createMockRequest({ action: 'npub' }, { pk: 'pubkey123' });
     const { res, getStatusCode, getJsonData } = createMockResponse();
-    
+
     await handler(req, res);
-    
+
     expect(getStatusCode()).toBe(200);
     expect(getJsonData()).toEqual({
       npub: 'npub1encoded'
@@ -133,9 +133,9 @@ describe('nip19/note', () => {
   test('should encode note successfully', async () => {
     const req = createMockRequest({ action: 'note' }, { note: 'eventid123' });
     const { res, getStatusCode, getJsonData } = createMockResponse();
-    
+
     await handler(req, res);
-    
+
     expect(getStatusCode()).toBe(200);
     expect(getJsonData()).toEqual({
       note: 'note1encoded'
@@ -156,9 +156,9 @@ describe('nip19/nprofile', () => {
 
     const req = createMockRequest({ action: 'nprofile' }, { profile: profilePointer });
     const { res, getStatusCode, getJsonData } = createMockResponse();
-    
+
     await handler(req, res);
-    
+
     expect(getStatusCode()).toBe(200);
     expect(getJsonData()).toEqual({
       nprofile: 'nprofile1encoded'
@@ -181,9 +181,9 @@ describe('nip19/nevent', () => {
 
     const req = createMockRequest({ action: 'nevent' }, { event: eventPointer });
     const { res, getStatusCode, getJsonData } = createMockResponse();
-    
+
     await handler(req, res);
-    
+
     expect(getStatusCode()).toBe(200);
     expect(getJsonData()).toEqual({
       nevent: 'nevent1encoded'
@@ -206,9 +206,9 @@ describe('nip19/naddr', () => {
 
     const req = createMockRequest({ action: 'naddr' }, { addr: addressPointer });
     const { res, getStatusCode, getJsonData } = createMockResponse();
-    
+
     await handler(req, res);
-    
+
     expect(getStatusCode()).toBe(200);
     expect(getJsonData()).toEqual({
       naddr: 'naddr1encoded'
@@ -224,9 +224,9 @@ describe('nip19/error', () => {
   test('should return 404 for invalid action', async () => {
     const req = createMockRequest({ action: 'invalid_action' });
     const { res, getStatusCode, getJsonData } = createMockResponse();
-    
+
     await handler(req, res);
-    
+
     expect(getStatusCode()).toBe(404);
     expect(getJsonData()).toEqual({
       error: 'Not Found'
@@ -236,9 +236,9 @@ describe('nip19/error', () => {
   test('should return 404 when no action is provided', async () => {
     const req = createMockRequest({});
     const { res, getStatusCode, getJsonData } = createMockResponse();
-    
+
     await handler(req, res);
-    
+
     expect(getStatusCode()).toBe(404);
     expect(getJsonData()).toEqual({
       error: 'Not Found'
@@ -248,7 +248,7 @@ describe('nip19/error', () => {
   test('should return object type for all actions', async () => {
     const req = createMockRequest({ action: 'decode' }, { n: 'test' });
     const { res } = createMockResponse();
-    
+
     expect(handler(req, res)).toBeTypeOf('object');
   });
 });

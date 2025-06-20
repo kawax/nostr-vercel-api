@@ -1,6 +1,6 @@
 import { expect, test, describe, vi, beforeEach } from 'vitest'
 import key from '../../api/key/[action]'
-import type { VercelRequest, VercelResponse } from "@vercel/node";
+import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 vi.mock('nostr-tools', () => {
   return {
@@ -42,18 +42,18 @@ function createMockRequest(query: Record<string, string> = {}): VercelRequest {
 function createMockResponse() {
   let statusCode = 200;
   let jsonData: any = null;
-  
+
   const res = <VercelResponse><unknown>{
-    status: function(code: number) {
+    status(code: number) {
       statusCode = code;
       return res;
     },
-    json: function(data: any) {
+    json(data: any) {
       jsonData = data;
       return res;
     }
   };
-  
+
   return { res, getStatusCode: () => statusCode, getJsonData: () => jsonData };
 }
 
@@ -63,14 +63,14 @@ describe('key/from_pk', () => {
   });
 
   test('should derive npub from a valid public key', () => {
-    const req = createMockRequest({ 
+    const req = createMockRequest({
       action: 'from_pk',
       pk: '1a1c0e2e64c2ba5a213b3f1e3b9a8e1d9c8c8e6d6a4c2e0a8c0e2e4c6a8e0a2c'
     });
     const { res, getStatusCode, getJsonData } = createMockResponse();
-    
+
     key(req, res);
-    
+
     expect(getStatusCode()).toBe(200);
     expect(getJsonData()).toHaveProperty('pk');
     expect(getJsonData()).toHaveProperty('npub');
@@ -83,14 +83,14 @@ describe('key/from_npub', () => {
   });
 
   test('should derive pk from a valid npub', () => {
-    const req = createMockRequest({ 
+    const req = createMockRequest({
       action: 'from_npub',
       npub: 'npub1sg6plzptd64u62a878hep2kev88swjh3tw00gjsfl8f237lmu63q0uf63m'
     });
     const { res, getStatusCode, getJsonData } = createMockResponse();
-    
+
     key(req, res);
-    
+
     expect(getStatusCode()).toBe(200);
     expect(getJsonData()).toHaveProperty('pk');
     expect(getJsonData()).toHaveProperty('npub');
