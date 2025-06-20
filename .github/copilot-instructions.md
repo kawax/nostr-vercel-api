@@ -253,6 +253,13 @@ npm test                # Run all tests
 npm run coverage        # Run tests with coverage
 ```
 
+### Linting and Formatting
+Ensure code adheres to TypeScript strict mode and follows linting rules:
+```bash
+npm run lint             # Run linter
+npm run lint:fix         # Fix linting issues
+```
+
 ### Project Configuration
 - **TypeScript:** Strict mode enabled, ES modules
 - **Vitest:** Global test functions, mocking enabled
