@@ -17,7 +17,6 @@ export default [
         console: 'readonly',
         process: 'readonly',
         globalThis: 'writable',
-        global: 'writable' // Add global for WebSocket polyfill
       }
     },
     plugins: {
@@ -26,8 +25,8 @@ export default [
     rules: {
       // TypeScript specific rules
       'no-unused-vars': 'off', // Turn off base rule as it can conflict with TypeScript
-      '@typescript-eslint/no-unused-vars': ['error', { 
-        argsIgnorePattern: '^_', 
+      '@typescript-eslint/no-unused-vars': ['error', {
+        argsIgnorePattern: '^_',
         varsIgnorePattern: '^_',
         caughtErrorsIgnorePattern: '^_'
       }],
@@ -35,8 +34,8 @@ export default [
       '@typescript-eslint/explicit-module-boundary-types': 'off',
       '@typescript-eslint/no-explicit-any': 'warn',
       '@typescript-eslint/no-non-null-assertion': 'warn',
-      
-      // General ESLint rules  
+
+      // General ESLint rules
       'no-console': 'off', // Allow console for server-side logging
       'prefer-const': 'error',
       'no-var': 'error',
@@ -48,7 +47,7 @@ export default [
       'semi': 'off', // Turn off semicolon rule for now
       'quotes': ['error', 'single', { avoidEscape: true }],
       'indent': 'off', // Turn off indentation rule for now
-      
+
       // Turn off some rules that conflict with Prettier or are too strict
       'no-trailing-spaces': 'error',
       'eol-last': 'error'

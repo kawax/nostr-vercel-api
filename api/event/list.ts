@@ -1,7 +1,4 @@
 import {SimplePool} from 'nostr-tools'
-import {WebSocket} from 'ws'
-
-(global as any).WebSocket = WebSocket
 
 import type {VercelRequest, VercelResponse} from '@vercel/node';
 import type {Event, Filter} from 'nostr-tools'

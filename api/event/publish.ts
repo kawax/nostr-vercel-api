@@ -3,9 +3,6 @@ import {
     verifyEvent,
     Relay,
 } from 'nostr-tools'
-import {WebSocket} from 'ws'
-
-(global as any).WebSocket = WebSocket
 
 import {hexToBytes} from '@noble/hashes/utils'
 

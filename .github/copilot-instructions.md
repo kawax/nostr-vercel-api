@@ -288,7 +288,6 @@ npm run lint:fix         # Fix linting issues
 - **@noble/curves:** Secp256k1 cryptography (signing/verification)
 - **@noble/hashes:** Hash utilities (hex conversion)
 - **@peculiar/webcrypto:** WebCrypto polyfill for NIP-04
-- **ws:** WebSocket client for relay communication
 
 ### Development Dependencies
 - **vitest:** Testing framework

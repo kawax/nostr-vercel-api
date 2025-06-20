@@ -10,10 +10,6 @@ const mockSimplePool = vi.mocked(SimplePool)
 
 import list from '../../api/event/list'
 
-vi.mock('ws', () => ({
-  WebSocket: vi.fn()
-}))
-
 function createMockRequest(body: any): VercelRequest {
   return <VercelRequest><unknown>{
     body

@@ -16,10 +16,6 @@ vi.mock('nostr-tools', () => ({
   }
 }))
 
-vi.mock('ws', () => ({
-  WebSocket: vi.fn()
-}))
-
 vi.mock('@noble/hashes/utils', () => ({
   hexToBytes: vi.fn(() => new Uint8Array(32).fill(1))
 }))
