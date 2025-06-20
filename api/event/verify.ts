@@ -10,6 +10,6 @@ export default async function handler (request: VercelRequest, response: VercelR
     const verify = verifyEvent(event)
 
     return response.status(200).json({
-        verify: verify,
+        verify,
     })
 }

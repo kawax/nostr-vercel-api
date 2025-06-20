@@ -1,5 +1,5 @@
 import { expect, test, describe, vi, beforeEach } from 'vitest'
-import type { VercelRequest, VercelResponse } from "@vercel/node"
+import type { VercelRequest, VercelResponse } from '@vercel/node'
 import { SimplePool } from 'nostr-tools'
 
 vi.mock('nostr-tools', () => ({
@@ -23,18 +23,18 @@ function createMockRequest(body: any): VercelRequest {
 function createMockResponse() {
   let statusCode = 200
   let jsonData: any = null
-  
+
   const res = <VercelResponse><unknown>{
-    status: function(code: number) {
+    status(code: number) {
       statusCode = code
       return res
     },
-    json: function(data: any) {
+    json(data: any) {
       jsonData = data
       return res
     }
   }
-  
+
   return { res, getStatusCode: () => statusCode, getJsonData: () => jsonData }
 }
 
@@ -50,7 +50,7 @@ describe('event/get', () => {
   }
 
   const mockGet = vi.fn()
-  
+
   beforeEach(() => {
     vi.clearAllMocks()
     mockGet.mockResolvedValue(mockEvent)
@@ -65,9 +65,9 @@ describe('event/get', () => {
       relay: 'wss://relay.example.com'
     })
     const { res, getStatusCode, getJsonData } = createMockResponse()
-    
+
     await get(req, res)
-    
+
     expect(getStatusCode()).toBe(200)
     expect(getJsonData()).toHaveProperty('event')
     expect(getJsonData().event).toEqual(mockEvent)
@@ -75,22 +75,22 @@ describe('event/get', () => {
 
   test('should return null when event not found', async () => {
     mockGet.mockResolvedValueOnce(null)
-    
+
     const req = createMockRequest({
       filter: { ids: ['nonexistent-id'] },
       relay: 'wss://relay.example.com'
     })
     const { res, getStatusCode, getJsonData } = createMockResponse()
-    
+
     await get(req, res)
-    
+
     expect(getStatusCode()).toBe(200)
     expect(getJsonData()).toHaveProperty('event', null)
   })
 
   test('should handle filter with multiple criteria', async () => {
     const req = createMockRequest({
-      filter: { 
+      filter: {
         authors: ['test-pubkey'],
         kinds: [1],
         since: 1234567890
@@ -98,9 +98,9 @@ describe('event/get', () => {
       relay: 'wss://relay.example.com'
     })
     const { res, getStatusCode, getJsonData } = createMockResponse()
-    
+
     await get(req, res)
-    
+
     expect(getStatusCode()).toBe(200)
     expect(getJsonData()).toHaveProperty('event')
   })

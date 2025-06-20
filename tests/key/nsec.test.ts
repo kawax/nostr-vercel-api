@@ -1,6 +1,6 @@
 import { expect, test, describe, vi, beforeEach } from 'vitest'
 import key from '../../api/key/[action]'
-import type { VercelRequest, VercelResponse } from "@vercel/node";
+import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 vi.mock('nostr-tools', () => {
   return {
@@ -42,18 +42,18 @@ function createMockRequest(query: Record<string, string> = {}): VercelRequest {
 function createMockResponse() {
   let statusCode = 200;
   let jsonData: any = null;
-  
+
   const res = <VercelResponse><unknown>{
-    status: function(code: number) {
+    status(code: number) {
       statusCode = code;
       return res;
     },
-    json: function(data: any) {
+    json(data: any) {
       jsonData = data;
       return res;
     }
   };
-  
+
   return { res, getStatusCode: () => statusCode, getJsonData: () => jsonData };
 }
 
@@ -63,14 +63,14 @@ describe('key/from_sk', () => {
   });
 
   test('should derive keys from a valid secret key', () => {
-    const req = createMockRequest({ 
+    const req = createMockRequest({
       action: 'from_sk',
       sk: '0101010101010101010101010101010101010101010101010101010101010101'
     });
     const { res, getStatusCode, getJsonData } = createMockResponse();
-    
+
     key(req, res);
-    
+
     expect(getStatusCode()).toBe(200);
     expect(getJsonData()).toHaveProperty('sk');
     expect(getJsonData()).toHaveProperty('nsec');
@@ -85,14 +85,14 @@ describe('key/from_nsec', () => {
   });
 
   test('should derive keys from a valid nsec', () => {
-    const req = createMockRequest({ 
+    const req = createMockRequest({
       action: 'from_nsec',
       nsec: 'nsec1j4c6269y9w0q2er2xjw8sv2ehyrtfxq3jwgdlxj8d2v3r2z9qnqq9t3g96'
     });
     const { res, getStatusCode, getJsonData } = createMockResponse();
-    
+
     key(req, res);
-    
+
     expect(getStatusCode()).toBe(200);
     expect(getJsonData()).toHaveProperty('sk');
     expect(getJsonData()).toHaveProperty('nsec');

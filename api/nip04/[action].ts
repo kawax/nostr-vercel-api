@@ -1,5 +1,5 @@
 import {nip04} from 'nostr-tools'
-import {Crypto} from "@peculiar/webcrypto";
+import {Crypto} from '@peculiar/webcrypto';
 
 import type {VercelRequest, VercelResponse} from '@vercel/node'
 
@@ -27,7 +27,7 @@ async function encrypt(request: VercelRequest, response: VercelResponse): Promis
     const encrypt: string = await nip04.encrypt(sk, pk, content);
 
     return response.status(200).json({
-        encrypt: encrypt,
+        encrypt,
     })
 }
 
@@ -37,6 +37,6 @@ async function decrypt(request: VercelRequest, response: VercelResponse): Promis
     const decrypt: string = await nip04.decrypt(sk, pk, content);
 
     return response.status(200).json({
-        decrypt: decrypt,
+        decrypt,
     })
 }

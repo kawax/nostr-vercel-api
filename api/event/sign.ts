@@ -10,6 +10,6 @@ export default async function handler(request: VercelRequest, response: VercelRe
     const sign = bytesToHex(schnorr.sign(getEventHash(event), hexToBytes(sk)))
 
     return response.status(200).json({
-        sign: sign,
+        sign,
     })
 }

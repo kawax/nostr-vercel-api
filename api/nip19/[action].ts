@@ -34,7 +34,7 @@ function decode(request: VercelRequest, response: VercelResponse): VercelRespons
     const {type, data} = nip19.decode(n);
 
     return response.status(200).json({
-        type: type,
+        type,
         data: data instanceof Uint8Array ? bytesToHex(data) : data,
     })
 }
@@ -45,7 +45,7 @@ function nsecEncode(request: VercelRequest, response: VercelResponse): VercelRes
     const nsec = nip19.nsecEncode(hexToBytes(sk));
 
     return response.status(200).json({
-        nsec: nsec,
+        nsec,
     })
 }
 
@@ -55,7 +55,7 @@ function npubEncode(request: VercelRequest, response: VercelResponse): VercelRes
     const npub = nip19.npubEncode(pk);
 
     return response.status(200).json({
-        npub: npub,
+        npub,
     })
 }
 
@@ -75,7 +75,7 @@ function nprofileEncode(request: VercelRequest, response: VercelResponse): Verce
     const nprofile = nip19.nprofileEncode(profile);
 
     return response.status(200).json({
-        nprofile: nprofile,
+        nprofile,
     })
 }
 
@@ -85,7 +85,7 @@ function neventEncode(request: VercelRequest, response: VercelResponse): VercelR
     const nevent = nip19.neventEncode(event);
 
     return response.status(200).json({
-        nevent: nevent,
+        nevent,
     })
 }
 
@@ -95,6 +95,6 @@ function naddrEncode(request: VercelRequest, response: VercelResponse): VercelRe
     const naddr = nip19.naddrEncode(addr);
 
     return response.status(200).json({
-        naddr: naddr,
+        naddr,
     })
 }

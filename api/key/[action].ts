@@ -36,9 +36,9 @@ function generate(request: VercelRequest, response: VercelResponse): VercelRespo
 
     return response.status(200).json({
         sk: bytesToHex(sk),
-        nsec: nsec,
-        pk: pk,
-        npub: npub,
+        nsec,
+        pk,
+        npub,
     })
 }
 
@@ -50,10 +50,10 @@ function from_sk(request: VercelRequest, response: VercelResponse): VercelRespon
     const npub = nip19.npubEncode(pk)
 
     return response.status(200).json({
-        sk: sk,
-        nsec: nsec,
-        pk: pk,
-        npub: npub,
+        sk,
+        nsec,
+        pk,
+        npub,
     })
 }
 
@@ -71,9 +71,9 @@ function from_nsec(request: VercelRequest, response: VercelResponse): VercelResp
 
     return response.status(200).json({
         sk: bytesToHex(data),
-        nsec: nsec,
-        pk: pk,
-        npub: npub,
+        nsec,
+        pk,
+        npub,
     })
 }
 
@@ -83,8 +83,8 @@ function from_pk(request: VercelRequest, response: VercelResponse): VercelRespon
     const npub = nip19.npubEncode(pk ?? '')
 
     return response.status(200).json({
-        pk: pk,
-        npub: npub,
+        pk,
+        npub,
     })
 }
 
@@ -99,6 +99,6 @@ function from_npub(request: VercelRequest, response: VercelResponse): VercelResp
 
     return response.status(200).json({
         pk: data,
-        npub: npub,
+        npub,
     })
 }

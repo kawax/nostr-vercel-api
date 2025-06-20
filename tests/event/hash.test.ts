@@ -1,5 +1,5 @@
 import { expect, test, describe, vi, beforeEach } from 'vitest'
-import type { VercelRequest, VercelResponse } from "@vercel/node"
+import type { VercelRequest, VercelResponse } from '@vercel/node'
 import { getEventHash } from 'nostr-tools'
 
 vi.mock('nostr-tools', () => ({
@@ -20,19 +20,19 @@ function createMockResponse() {
   let statusCode = 200
   let jsonData: any = null
   let returnValue: any = null
-  
+
   const res = <VercelResponse><unknown>{
-    status: function(code: number) {
+    status(code: number) {
       statusCode = code
       return res
     },
-    json: function(data: any) {
+    json(data: any) {
       jsonData = data
       returnValue = res
       return res
     }
   }
-  
+
   return { res, getStatusCode: () => statusCode, getJsonData: () => jsonData, getReturnValue: () => returnValue }
 }
 
@@ -52,14 +52,12 @@ describe('event/hash', () => {
       created_at: 1234567890,
       sig: 'test-signature'
     }
-    
+
     const req = createMockRequest({ event: mockEvent })
     const { res, getStatusCode, getJsonData } = createMockResponse()
-    
-    const result = await hash(req, res)
-    
 
-    
+    await hash(req, res)
+
     expect(getStatusCode()).toBe(200)
     expect(getJsonData()).toHaveProperty('hash')
     expect(getJsonData().hash).toBe('test-event-hash-123456789abcdef')
@@ -73,10 +71,10 @@ describe('event/hash', () => {
       pubkey: 'test-pubkey',
       created_at: 1234567890
     }
-    
+
     const req = createMockRequest({ event: mockEvent })
     const { res } = createMockResponse()
-    
+
     expect(hash(req, res)).toBeTypeOf('object')
   })
 
@@ -90,12 +88,12 @@ describe('event/hash', () => {
       created_at: 1234567890,
       sig: 'test-signature'
     }
-    
+
     const req = createMockRequest({ event: mockEvent })
     const { res, getStatusCode, getJsonData } = createMockResponse()
-    
+
     await hash(req, res)
-    
+
     expect(getStatusCode()).toBe(200)
     expect(getJsonData()).toHaveProperty('hash')
     expect(typeof getJsonData().hash).toBe('string')

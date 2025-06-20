@@ -1,5 +1,5 @@
 import { expect, test, describe, vi, beforeEach } from 'vitest'
-import type { VercelRequest, VercelResponse } from "@vercel/node"
+import type { VercelRequest, VercelResponse } from '@vercel/node'
 import { verifyEvent } from 'nostr-tools'
 
 vi.mock('nostr-tools', () => ({
@@ -19,18 +19,18 @@ function createMockRequest(body: any): VercelRequest {
 function createMockResponse() {
   let statusCode = 200
   let jsonData: any = null
-  
+
   const res = <VercelResponse><unknown>{
-    status: function(code: number) {
+    status(code: number) {
       statusCode = code
       return res
     },
-    json: function(data: any) {
+    json(data: any) {
       jsonData = data
       return res
     }
   }
-  
+
   return { res, getStatusCode: () => statusCode, getJsonData: () => jsonData }
 }
 
@@ -50,12 +50,12 @@ describe('event/verify', () => {
       content: 'test content',
       sig: 'valid-signature'
     }
-    
+
     const req = createMockRequest({ event: mockEvent })
     const { res, getStatusCode, getJsonData } = createMockResponse()
-    
+
     verify(req, res)
-    
+
     expect(getStatusCode()).toBe(200)
     expect(getJsonData()).toHaveProperty('verify')
     expect(getJsonData().verify).toBe(true)
@@ -63,7 +63,7 @@ describe('event/verify', () => {
 
   test('should return false for invalid event', () => {
     mockVerifyEvent.mockReturnValueOnce(false)
-    
+
     const mockEvent = {
       id: 'test-event-id',
       pubkey: 'test-pubkey',
@@ -73,12 +73,12 @@ describe('event/verify', () => {
       content: 'test content',
       sig: 'invalid-signature'
     }
-    
+
     const req = createMockRequest({ event: mockEvent })
     const { res, getStatusCode, getJsonData } = createMockResponse()
-    
+
     verify(req, res)
-    
+
     expect(getStatusCode()).toBe(200)
     expect(getJsonData()).toHaveProperty('verify')
     expect(getJsonData().verify).toBe(false)
@@ -94,10 +94,10 @@ describe('event/verify', () => {
       content: 'test content',
       sig: 'valid-signature'
     }
-    
+
     const req = createMockRequest({ event: mockEvent })
     const { res } = createMockResponse()
-    
+
     expect(verify(req, res)).toBeTypeOf('object')
   })
 
@@ -115,12 +115,12 @@ describe('event/verify', () => {
       content: 'Complex event with multiple tags and references',
       sig: 'complex-signature'
     }
-    
+
     const req = createMockRequest({ event: mockEvent })
     const { res, getStatusCode, getJsonData } = createMockResponse()
-    
+
     verify(req, res)
-    
+
     expect(getStatusCode()).toBe(200)
     expect(getJsonData()).toHaveProperty('verify')
     expect(typeof getJsonData().verify).toBe('boolean')

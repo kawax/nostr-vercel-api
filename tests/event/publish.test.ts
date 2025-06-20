@@ -1,5 +1,5 @@
 import { expect, test, describe, vi, beforeEach } from 'vitest'
-import type { VercelRequest, VercelResponse } from "@vercel/node"
+import type { VercelRequest, VercelResponse } from '@vercel/node'
 import { finalizeEvent, verifyEvent, Relay } from 'nostr-tools'
 
 const mockFinalizeEvent = vi.mocked(finalizeEvent)
@@ -33,18 +33,18 @@ function createMockRequest(body: any): VercelRequest {
 function createMockResponse() {
   let statusCode = 200
   let jsonData: any = null
-  
+
   const res = <VercelResponse><unknown>{
-    status: function(code: number) {
+    status(code: number) {
       statusCode = code
       return res
     },
-    json: function(data: any) {
+    json(data: any) {
       jsonData = data
       return res
     }
   }
-  
+
   return { res, getStatusCode: () => statusCode, getJsonData: () => jsonData }
 }
 
@@ -76,16 +76,16 @@ describe('event/publish', () => {
       content: 'test content',
       pubkey: 'test-pubkey'
     }
-    
+
     const req = createMockRequest({
       event: mockEvent,
       sk: '0101010101010101010101010101010101010101010101010101010101010101',
       relay: 'wss://relay.example.com'
     })
     const { res, getStatusCode, getJsonData } = createMockResponse()
-    
+
     await publish(req, res)
-    
+
     expect(getStatusCode()).toBe(200)
     expect(getJsonData()).toHaveProperty('message', 'ok')
     expect(getJsonData()).toHaveProperty('event')
@@ -99,38 +99,38 @@ describe('event/publish', () => {
       content: 'test content',
       pubkey: 'test-pubkey'
     }
-    
+
     const req = createMockRequest({
       event: mockEvent,
       sk: '0101010101010101010101010101010101010101010101010101010101010101'
     })
     const { res, getStatusCode, getJsonData } = createMockResponse()
-    
+
     await publish(req, res)
-    
+
     expect(getStatusCode()).toBe(500)
     expect(getJsonData()).toHaveProperty('error', 'error')
   })
 
   test('should return error when event verification fails', async () => {
     mockVerifyEvent.mockReturnValueOnce(false)
-    
+
     const mockEvent = {
       kind: 1,
       tags: [],
       content: 'test content',
       pubkey: 'test-pubkey'
     }
-    
+
     const req = createMockRequest({
       event: mockEvent,
       sk: '0101010101010101010101010101010101010101010101010101010101010101',
       relay: 'wss://relay.example.com'
     })
     const { res, getStatusCode, getJsonData } = createMockResponse()
-    
+
     await publish(req, res)
-    
+
     expect(getStatusCode()).toBe(500)
     expect(getJsonData()).toHaveProperty('error', 'error')
   })
@@ -142,16 +142,16 @@ describe('event/publish', () => {
       content: 'test content',
       pubkey: 'test-pubkey'
     }
-    
+
     const req = createMockRequest({
       event: mockEvent,
       sk: '0101010101010101010101010101010101010101010101010101010101010101',
       relay: 'wss://relay.example.com'
     })
     const { res } = createMockResponse()
-    
+
     await publish(req, res)
-    
+
     expect(mockEvent.created_at).toBeDefined()
     expect(typeof mockEvent.created_at).toBe('number')
   })

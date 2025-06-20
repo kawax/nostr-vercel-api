@@ -31,6 +31,8 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - run: npm ci
+    - name: Lint
+      run: npm run lint
     - name: Test
       run: npm run coverage
     - name: Code Coverage

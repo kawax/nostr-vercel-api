@@ -1,5 +1,4 @@
 import { describe, test, expect, vi, beforeEach } from 'vitest';
-import key from '../../api/key/[action]';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 function createMockRequest(query: Record<string, string> = {}): VercelRequest {
@@ -13,11 +12,11 @@ function createMockResponse() {
   let jsonData: any = null;
 
   const res = <VercelResponse><unknown>{
-    status: function(code: number) {
+    status(code: number) {
       statusCode = code;
       return res;
     },
-    json: function(data: any) {
+    json(data: any) {
       jsonData = data;
       return res;
     }
@@ -78,10 +77,10 @@ describe('key/[action] extra coverage', () => {
     }));
     const key = (await import('../../api/key/[action]')).default;
     const req = createMockRequest({ action: 'from_nsec', nsec: '' });
-    const { res, getStatusCode, getJsonData } = createMockResponse();
+    const { res } = createMockResponse();
     try {
       key(req, res);
-    } catch (e) {
+    } catch (_e) {
       // Consider the case where an exception is thrown
     }
     // The return value should be a type error
@@ -134,10 +133,10 @@ describe('key/[action] extra coverage', () => {
     }));
     const key = (await import('../../api/key/[action]')).default;
     const req = createMockRequest({ action: 'from_npub', npub: '' });
-    const { res, getStatusCode, getJsonData } = createMockResponse();
+    const { res } = createMockResponse();
     try {
       key(req, res);
-    } catch (e) {
+    } catch (_e) {
       // Consider the case where an exception is thrown
     }
     // The return value should be a type error

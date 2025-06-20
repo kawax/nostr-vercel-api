@@ -16,6 +16,6 @@ export default async function handler(request: VercelRequest, response: VercelRe
     const event: Event | null = await pool.get([relay], filter)
 
     return response.status(200).json({
-        event: event,
+        event,
     })
 }
